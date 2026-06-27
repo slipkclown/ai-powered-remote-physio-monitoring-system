@@ -1,7 +1,8 @@
 import {
   Activity, Bell, BookOpen, Calendar, ChevronRight, Clock,
-  MessageSquare, Play, TrendingUp, Trophy, User, Zap, CheckCircle,
+  Heart, MessageSquare, Play, TrendingUp, Trophy, User, Zap, CheckCircle,
 } from "lucide-react";
+import { useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useRehab } from "../context/RehabContext";
 import { toast } from "sonner";
@@ -28,18 +29,28 @@ const milestones = [
   { label: "Return to Jogging", done: false },
 ];
 
+const ENCOURAGEMENTS = [
+  "Every session brings you one step closer to returning to the activities you love.",
+  "Small progress is still progress. Keep showing up.",
+  "Recovery takes time, and you're doing great.",
+  "One session at a time. You're building something real.",
+  "Celebrate effort, not perfection. You showed up today — that matters.",
+  "Every rehabilitation session matters. You are doing the work.",
+];
+
 const navItems = [
-  { icon: <Activity className="w-4 h-4" />, label: "Dashboard", page: "patient" },
-  { icon: <Play className="w-4 h-4" />, label: "My Exercises", page: "monitor" },
-  { icon: <TrendingUp className="w-4 h-4" />, label: "Progress History", page: "progress-history" },
-  { icon: <BookOpen className="w-4 h-4" />, label: "Recovery Journal", page: "journal" },
+  { icon: <Activity className="w-4 h-4" />, label: "Home", page: "patient" },
+  { icon: <Play className="w-4 h-4" />, label: "Today's Recovery Plan", page: "monitor" },
+  { icon: <TrendingUp className="w-4 h-4" />, label: "Recovery Journey", page: "progress-history" },
+  { icon: <BookOpen className="w-4 h-4" />, label: "Recovery Reflection", page: "journal" },
+  { icon: <Heart className="w-4 h-4" />, label: "Confidence Check", page: "confidence" },
   { icon: <MessageSquare className="w-4 h-4" />, label: "Message Centre", page: "messages" },
   { icon: <User className="w-4 h-4" />, label: "My Profile", page: "patient-profile" },
 ];
 
 const recoveryFeatures = [
-  { icon: <BookOpen className="w-5 h-5" />, label: "Recovery Journal", desc: "Log daily reflections", page: "journal", color: "text-violet-600", bg: "bg-violet-50" },
-  { icon: <TrendingUp className="w-5 h-5" />, label: "Confidence Tracking", desc: "Weekly questionnaire", page: "confidence", color: "text-cyan-600", bg: "bg-cyan-50" },
+  { icon: <BookOpen className="w-5 h-5" />, label: "Recovery Reflection", desc: "Guided prompts to log your journey", page: "journal", color: "text-violet-600", bg: "bg-violet-50" },
+  { icon: <Heart className="w-5 h-5" />, label: "Confidence Check", desc: "Weekly confidence questionnaire", page: "confidence", color: "text-rose-600", bg: "bg-rose-50" },
   { icon: <Activity className="w-5 h-5" />, label: "Weekly Check-In", desc: "Pain · confidence · motivation", page: "checkin", color: "text-emerald-600", bg: "bg-emerald-50" },
   { icon: <MessageSquare className="w-5 h-5" />, label: "Message Centre", desc: "Contact your physiotherapist", page: "messages", color: "text-primary", bg: "bg-secondary" },
 ];
@@ -49,6 +60,10 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
   const myExercises = exercises.filter((e) => e.patientId === "P-1042");
   const milestoneDone = milestones.filter((m) => m.done).length;
   const myNotifications = notifications.filter((n) => n.for === "patient");
+  const encouragement = useMemo(() => ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)], []);
+
+  // Recovery Score: composite of exercise quality (88%), adherence (70%), confidence (80%), milestones (60%)
+  const recoveryScore = Math.round((88 * 0.35) + (70 * 0.25) + (80 * 0.25) + (60 * 0.15));
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -68,7 +83,7 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
               key={item.label}
               onClick={() => onNavigate(item.page)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-                item.label === "Dashboard" ? "bg-white/15 text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"
+                item.label === "Home" ? "bg-white/15 text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"
               }`}
             >
               {item.icon}
@@ -92,36 +107,45 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
 
       <main className="flex-1 overflow-y-auto">
         <div className="p-8">
-          {/* Header */}
-          <div className="flex items-start justify-between mb-8">
-            <div>
-              <h1 className="text-foreground mb-1">Welcome back, Muhammad</h1>
-              <p className="text-muted-foreground text-sm">Week 3 of ACL Rehabilitation · Dr. Sarah Chen · Recovr</p>
+          {/* Welcome header */}
+          <div className="bg-gradient-to-r from-[#eff6ff] to-[#f0fdf4] border border-primary/10 rounded-2xl p-6 mb-6 flex items-center justify-between gap-4">
+            <div className="flex-1">
+              <h1 className="text-foreground text-2xl font-bold mb-1">Welcome back, Muhammad.</h1>
+              <p className="text-muted-foreground text-sm mb-2">Week 3 of ACL Rehabilitation · Dr. Sarah Chen</p>
+              <p className="text-primary text-sm italic">"{encouragement}"</p>
             </div>
-            {/* Notification bell */}
-            {myNotifications.filter((n) => !n.read).length > 0 && (
-              <button
-                onClick={() => {
-                  myNotifications.filter((n) => !n.read).forEach((n) => {
-                    toast.info(n.message);
-                    markNotificationRead(n.id);
-                  });
-                }}
-                className="relative flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-sm hover:bg-amber-100 transition-colors"
-              >
-                <Bell className="w-4 h-4" />
-                <span>{myNotifications.filter((n) => !n.read).length} new notification{myNotifications.filter((n) => !n.read).length > 1 ? "s" : ""}</span>
-              </button>
-            )}
+            <div className="flex items-center gap-4 flex-shrink-0">
+              {/* Recovery Score */}
+              <div className="text-center bg-white border border-border rounded-2xl px-5 py-4 shadow-sm cursor-pointer hover:shadow-md transition-shadow" onClick={() => onNavigate("progress-history")}>
+                <div className="text-primary text-3xl font-extrabold leading-none mb-0.5">{recoveryScore}</div>
+                <div className="text-muted-foreground text-xs">Recovery Score</div>
+                <div className="text-emerald-600 text-xs font-medium mt-0.5">↑ On Track</div>
+              </div>
+              {/* Notification bell */}
+              {myNotifications.filter((n) => !n.read).length > 0 && (
+                <button
+                  onClick={() => {
+                    myNotifications.filter((n) => !n.read).forEach((n) => {
+                      toast.info(n.message);
+                      markNotificationRead(n.id);
+                    });
+                  }}
+                  className="relative flex items-center gap-2 px-4 py-2 bg-amber-50 border border-amber-200 rounded-xl text-amber-700 text-sm hover:bg-amber-100 transition-colors"
+                >
+                  <Bell className="w-4 h-4" />
+                  <span>{myNotifications.filter((n) => !n.read).length} new</span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-4 gap-5 mb-6">
+          <div className="grid grid-cols-4 gap-4 mb-6">
             {[
-              { icon: <Trophy className="w-5 h-5" />, label: "Overall Score", value: "88%", sub: "+6% this week", color: "text-primary", bg: "bg-secondary", page: "progress-history" },
-              { icon: <Activity className="w-5 h-5" />, label: "Sessions Done", value: "14", sub: "of 20 total", color: "text-accent", bg: "bg-emerald-50", page: null },
+              { icon: <Trophy className="w-5 h-5" />, label: "Exercise Quality", value: "88%", sub: "+6% this week", color: "text-primary", bg: "bg-secondary", page: "progress-history" },
+              { icon: <Activity className="w-5 h-5" />, label: "Adherence", value: "14/20", sub: "sessions completed", color: "text-accent", bg: "bg-emerald-50", page: null },
               { icon: <TrendingUp className="w-5 h-5" />, label: "Avg Knee Angle", value: "86°", sub: "Target: 90°", color: "text-cyan-600", bg: "bg-cyan-50", page: "progress-history" },
-              { icon: <Clock className="w-5 h-5" />, label: "Exercise Time", value: "6.2h", sub: "this week", color: "text-violet-600", bg: "bg-violet-50", page: null },
+              { icon: <Clock className="w-5 h-5" />, label: "Time in Recovery", value: "6.2h", sub: "this week", color: "text-violet-600", bg: "bg-violet-50", page: null },
             ].map((stat) => (
               <div key={stat.label} onClick={() => stat.page && onNavigate(stat.page)}
                 className={`bg-card border border-border rounded-2xl p-5 ${stat.page ? "cursor-pointer hover:shadow-md transition-shadow" : ""}`}>

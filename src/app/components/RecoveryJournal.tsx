@@ -82,13 +82,13 @@ export function RecoveryJournal({ onNavigate }: RecoveryJournalProps) {
         </div>
         <div className="mb-8">
           <h1 className="text-foreground mb-1">My Recovery Journal</h1>
-          <p className="text-muted-foreground text-sm">Document your rehabilitation experiences, concerns, and progress. Your physiotherapist can review your entries.</p>
+          <p className="text-muted-foreground text-sm">Guided prompts to help you reflect on your recovery. Your physiotherapist can review your entries and leave feedback.</p>
         </div>
 
         {showNew && (
           <div className="bg-card border border-primary/30 rounded-2xl p-6 mb-8 shadow-sm">
             <div className="flex items-center justify-between mb-5">
-              <h3 className="text-foreground">{editId !== null ? "Edit Entry" : "New Journal Entry"}</h3>
+              <h3 className="text-foreground">{editId !== null ? "Edit Entry" : "New Recovery Reflection"}</h3>
               <button onClick={() => { setShowNew(false); setEditId(null); }} className="text-muted-foreground hover:text-foreground"><X className="w-5 h-5" /></button>
             </div>
             <div className="space-y-4">
@@ -98,10 +98,28 @@ export function RecoveryJournal({ onNavigate }: RecoveryJournalProps) {
                   placeholder="e.g. A tough but rewarding session"
                   className="w-full border border-border rounded-xl px-4 py-2.5 text-sm bg-background focus:outline-none focus:border-primary" />
               </div>
+              {/* Guided prompts */}
+              <div className="bg-[#f8fbff] border border-primary/10 rounded-xl p-4">
+                <div className="text-primary text-xs font-semibold uppercase tracking-wider mb-3">Recovery Reflection Prompts</div>
+                <div className="space-y-1.5">
+                  {[
+                    "What felt easier today compared to last week?",
+                    "What challenged you during today's session?",
+                    "How confident do you feel after today's session?",
+                    "Is there anything you would like your physiotherapist to know?",
+                    "What progress are you most proud of this week?",
+                  ].map((prompt) => (
+                    <button key={prompt} onClick={() => setForm((f) => ({ ...f, body: f.body ? f.body + "\n\n" + prompt + " " : prompt + " " }))}
+                      className="block w-full text-left text-muted-foreground text-xs hover:text-primary hover:bg-secondary rounded-lg px-3 py-2 transition-colors">
+                      + {prompt}
+                    </button>
+                  ))}
+                </div>
+              </div>
               <div>
-                <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">Entry</label>
+                <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">Your Reflection</label>
                 <textarea value={form.body} onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
-                  placeholder="Write about your recovery experience, concerns, daily reflections, or progress..."
+                  placeholder="Use the prompts above to guide your reflection, or write freely about your recovery experience..."
                   rows={5}
                   className="w-full border border-border rounded-xl px-4 py-2.5 text-sm bg-background focus:outline-none focus:border-primary resize-none" />
               </div>

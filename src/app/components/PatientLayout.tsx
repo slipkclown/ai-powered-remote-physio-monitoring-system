@@ -1,6 +1,6 @@
 import {
-  Activity, Bell, BookOpen, Home, MessageSquare,
-  Play, TrendingUp, User, ClipboardList,
+  Activity, Bell, BookOpen, ClipboardList, Heart, Home,
+  MessageSquare, Play, TrendingUp, User,
 } from "lucide-react";
 import { useRehab } from "../context/RehabContext";
 import { toast } from "sonner";
@@ -12,11 +12,11 @@ interface PatientLayoutProps {
 }
 
 const navItems = [
-  { icon: <Home className="w-4 h-4" />, label: "Dashboard", page: "patient" },
-  { icon: <Play className="w-4 h-4" />, label: "My Exercises", page: "monitor" },
-  { icon: <TrendingUp className="w-4 h-4" />, label: "Progress History", page: "progress-history" },
-  { icon: <BookOpen className="w-4 h-4" />, label: "Recovery Journal", page: "journal" },
-  { icon: <Activity className="w-4 h-4" />, label: "Confidence Tracking", page: "confidence" },
+  { icon: <Home className="w-4 h-4" />, label: "Home", page: "patient" },
+  { icon: <Play className="w-4 h-4" />, label: "Today's Recovery Plan", page: "monitor" },
+  { icon: <TrendingUp className="w-4 h-4" />, label: "Recovery Journey", page: "progress-history" },
+  { icon: <BookOpen className="w-4 h-4" />, label: "Recovery Reflection", page: "journal" },
+  { icon: <Heart className="w-4 h-4" />, label: "Confidence Check", page: "confidence" },
   { icon: <ClipboardList className="w-4 h-4" />, label: "Weekly Check-In", page: "checkin" },
   { icon: <MessageSquare className="w-4 h-4" />, label: "Message Centre", page: "messages" },
   { icon: <User className="w-4 h-4" />, label: "My Profile", page: "patient-profile" },

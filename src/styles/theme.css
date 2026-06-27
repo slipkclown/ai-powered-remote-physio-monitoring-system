@@ -2,23 +2,23 @@
 
 :root {
   --font-size: 16px;
-  --background: #f0f6ff;
-  --foreground: #0d1f3c;
+  --background: #f8fbff;
+  --foreground: #1a2f52;
   --card: #ffffff;
-  --card-foreground: #0d1f3c;
+  --card-foreground: #1a2f52;
   --popover: #ffffff;
-  --popover-foreground: #0d1f3c;
-  --primary: #1d4ed8;
+  --popover-foreground: #1a2f52;
+  --primary: #2563eb;
   --primary-foreground: #ffffff;
-  --secondary: #dbeafe;
-  --secondary-foreground: #1e3a8a;
-  --muted: #e8f0fd;
-  --muted-foreground: #4b6080;
-  --accent: #059669;
+  --secondary: #eff6ff;
+  --secondary-foreground: #1e40af;
+  --muted: #f0f7ff;
+  --muted-foreground: #5b7299;
+  --accent: #0ea472;
   --accent-foreground: #ffffff;
   --destructive: #dc2626;
   --destructive-foreground: #ffffff;
-  --border: rgba(29, 78, 216, 0.12);
+  --border: rgba(37, 99, 235, 0.10);
   --input: transparent;
   --input-background: #f0f6ff;
   --switch-background: #93c5fd;
@@ -126,6 +126,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
   }
 
   /**

@@ -162,10 +162,21 @@ export function ConfidenceTracking({ onNavigate }: ConfidenceTrackingProps) {
             <div className="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <Activity className="w-8 h-8 text-emerald-600" />
             </div>
-            <h3 className="text-foreground mb-2">Check-In Complete!</h3>
-            <p className="text-muted-foreground text-sm mb-2">Your confidence score has been recorded and shared with Dr. Sarah Chen.</p>
-            <p className="text-accent font-medium">Score: {avgScore}/5 — {avgScore !== null ? scaleLabels[avgScore] : ""}</p>
-            <p className="text-primary text-sm mt-4 italic">"You are one step closer to returning stronger."</p>
+            <h3 className="text-foreground mb-2">Confidence Check Complete!</h3>
+            <p className="text-muted-foreground text-sm mb-4">Your responses have been recorded and shared with Dr. Sarah Chen.</p>
+            {/* Trend explanation instead of just a score */}
+            <div className="bg-[#f8fbff] border border-primary/15 rounded-2xl p-5 text-left mb-4 max-w-xs mx-auto">
+              <div className="text-primary text-xs font-semibold uppercase tracking-wider mb-3">What this means</div>
+              {avgScore !== null && avgScore >= 4 ? (
+                <p className="text-foreground text-sm leading-relaxed">Your confidence has improved since you began. You are becoming more comfortable with your rehabilitation exercises. Keep building on this momentum.</p>
+              ) : avgScore !== null && avgScore === 3 ? (
+                <p className="text-foreground text-sm leading-relaxed">Your confidence is growing steadily. It is normal to feel some uncertainty at this stage. Continue discussing your recovery goals with your physiotherapist.</p>
+              ) : (
+                <p className="text-foreground text-sm leading-relaxed">Your physiotherapist will review this check-in. If you are feeling uncertain, that is completely normal — don't hesitate to reach out through the Message Centre.</p>
+              )}
+              <div className="mt-3 text-accent font-semibold text-sm">{avgScore}/5 — {avgScore !== null ? scaleLabels[avgScore] : ""}</div>
+            </div>
+            <p className="text-primary text-sm italic">"You are one step closer to returning stronger."</p>
             <button
               onClick={() => { setSubmitted(false); setAnswers({}); }}
               className="mt-6 px-6 py-2.5 border border-border rounded-xl text-muted-foreground hover:bg-secondary transition-colors text-sm"
