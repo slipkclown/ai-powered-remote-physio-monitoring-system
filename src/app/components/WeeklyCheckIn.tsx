@@ -47,7 +47,7 @@ export function WeeklyCheckIn({ onNavigate, afterExercise = false }: WeeklyCheck
           {afterExercise && <div className="ml-auto text-xs text-muted-foreground bg-secondary px-3 py-1 rounded-full flex-shrink-0">Step 3 of 3</div>}
         </div>
         {afterExercise && (
-          <div className="bg-primary/5 border border-primary/20 rounded-xl p-4 mb-6 flex items-center gap-3">
+          <div className="bg-secondary border border-border rounded-xl p-4 mb-6 flex items-center gap-3">
             <ClipboardList className="w-5 h-5 text-primary flex-shrink-0" />
             <p className="text-foreground text-sm">Almost done! Complete this final check-in to close your exercise session and send all data to your physiotherapist.</p>
           </div>
@@ -89,7 +89,7 @@ export function WeeklyCheckIn({ onNavigate, afterExercise = false }: WeeklyCheck
                 rows={4} className="w-full border border-border rounded-xl px-4 py-3 text-sm bg-background focus:outline-none focus:border-primary resize-none" />
             </div>
 
-            <div className="bg-secondary border border-primary/20 rounded-2xl p-5">
+            <div className="bg-secondary border border-border rounded-2xl p-5">
               <div className="text-muted-foreground text-xs uppercase tracking-wider mb-3">Summary Preview</div>
               <div className="grid grid-cols-3 gap-4">
                 {sliderFields.map((f) => (

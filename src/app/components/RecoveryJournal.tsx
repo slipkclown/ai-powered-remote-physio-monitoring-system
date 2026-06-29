@@ -193,11 +193,11 @@ export function RecoveryJournal({ onNavigate }: RecoveryJournalProps) {
           </div>
         )}
 
-        <div className="mt-10 bg-gradient-to-r from-[#1e3a8a] to-[#1d4ed8] rounded-2xl p-6 flex items-center gap-4">
+        <div className="mt-10 bg-gradient-to-r from-[#3D4F5A] to-[#4e6370] rounded-2xl p-6 flex items-center gap-4">
           <Sparkles className="w-8 h-8 text-cyan-300 flex-shrink-0" />
           <div>
             <div className="text-white font-medium mb-1">Keep going, Muhammad</div>
-            <p className="text-blue-200 text-sm">Your physiotherapist reviews your journal entries and may provide feedback before your next session.</p>
+            <p className="text-[#c8c4b8] text-sm">Your physiotherapist reviews your journal entries and may provide feedback before your next session.</p>
           </div>
         </div>
       </div>

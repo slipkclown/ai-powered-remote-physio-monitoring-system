@@ -58,31 +58,31 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
   const skewY = skeletonAnimate % 2 === 0 ? 0 : -8;
 
   return (
-    <div className="min-h-screen bg-[#0d1f3c] flex flex-col">
+    <div className="min-h-screen bg-[#2E2C26] flex flex-col">
       {/* Top bar */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-white/10">
         <button
           onClick={() => onNavigate("patient")}
-          className="flex items-center gap-2 text-blue-300 hover:text-white transition-colors"
+          className="flex items-center gap-2 text-[#b0ad9e] hover:text-white transition-colors"
         >
           <ChevronLeft className="w-4 h-4" /> Back to Dashboard
         </button>
         <div className="flex items-center gap-3">
-          <Activity className="w-5 h-5 text-cyan-400" />
-          <span className="text-blue-300 font-semibold tracking-tight">Recovr</span>
+          <Activity className="w-5 h-5 text-[#a0c4b8]" />
+          <span className="text-[#b0ad9e] font-semibold tracking-tight">Recovr</span>
           <span className="text-blue-500">·</span>
           <span className="text-white font-medium">Terminal Knee Extension</span>
-          <span className="px-2.5 py-0.5 bg-green-500/20 border border-green-400/30 rounded-full text-green-400 text-xs">● LIVE</span>
+          <span className="px-2.5 py-0.5 bg-accent/20 border border-accent/30 rounded-full text-accent text-xs">● LIVE</span>
         </div>
-        <div className="text-blue-300 text-sm">Week 3 · Set 2 of 3</div>
+        <div className="text-[#b0ad9e] text-sm">Week 3 · Set 2 of 3</div>
       </div>
 
       {/* Main 3-panel layout */}
       <div className="flex flex-1 gap-0 overflow-hidden">
         {/* LEFT PANEL — Reference + Instructions */}
-        <div className="w-72 bg-[#0d1f3c] border-r border-white/10 flex flex-col p-5 gap-5">
+        <div className="w-72 bg-[#2E2C26] border-r border-white/10 flex flex-col p-5 gap-5">
           <div>
-            <div className="text-blue-300 text-xs uppercase tracking-wider mb-3">Reference Video</div>
+            <div className="text-[#b0ad9e] text-xs uppercase tracking-wider mb-3">Reference Video</div>
             <div className="bg-black/40 rounded-xl aspect-video flex items-center justify-center border border-white/10 relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
               <div className="relative flex items-center justify-center flex-col gap-2">
@@ -96,7 +96,7 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
           </div>
 
           <div>
-            <div className="text-blue-300 text-xs uppercase tracking-wider mb-3">Instructions</div>
+            <div className="text-[#b0ad9e] text-xs uppercase tracking-wider mb-3">Instructions</div>
             <div className="space-y-2.5">
               {[
                 "Sit in a chair with both feet flat on the floor.",
@@ -106,22 +106,22 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
                 "Complete 12 repetitions per set.",
               ].map((step, i) => (
                 <div key={i} className="flex gap-2.5">
-                  <div className="w-5 h-5 rounded-full bg-primary/30 text-cyan-400 text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <div className="w-5 h-5 rounded-full bg-primary/30 text-[#a0c4b8] text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
                     {i + 1}
                   </div>
-                  <p className="text-blue-200 text-xs leading-relaxed">{step}</p>
+                  <p className="text-[#c8c4b8] text-xs leading-relaxed">{step}</p>
                 </div>
               ))}
             </div>
           </div>
 
           <div className="mt-auto bg-white/5 border border-white/10 rounded-xl p-4">
-            <div className="text-blue-300 text-xs uppercase tracking-wider mb-2">Target</div>
+            <div className="text-[#b0ad9e] text-xs uppercase tracking-wider mb-2">Target</div>
             <div className="text-white text-2xl font-semibold">{TARGET_REPS} Reps</div>
-            <div className="text-blue-300 text-xs">× 3 Sets · 60s rest between</div>
+            <div className="text-[#b0ad9e] text-xs">× 3 Sets · 60s rest between</div>
             <div className="mt-3 flex items-center gap-2">
-              <Volume2 className="w-3.5 h-3.5 text-blue-400" />
-              <span className="text-blue-300 text-xs">Audio cues enabled</span>
+              <Volume2 className="w-3.5 h-3.5 text-[#a0a88c]" />
+              <span className="text-[#b0ad9e] text-xs">Audio cues enabled</span>
             </div>
           </div>
         </div>
@@ -184,10 +184,10 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
             </svg>
 
             {/* Corner labels */}
-            <div className="absolute top-4 left-4 text-xs text-blue-400 font-mono">MoveNet · 17kp</div>
+            <div className="absolute top-4 left-4 text-xs text-[#a0a88c] font-mono">MoveNet · 17kp</div>
             <div className="absolute top-4 right-4 flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              <span className="text-green-400 text-xs font-mono">AI Active</span>
+              <span className="text-accent text-xs font-mono">AI Active</span>
             </div>
 
             {/* Playback controls */}
@@ -210,10 +210,10 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
         </div>
 
         {/* RIGHT PANEL — Metrics & Feedback */}
-        <div className="w-72 bg-[#0d1f3c] border-l border-white/10 flex flex-col p-5 gap-4">
+        <div className="w-72 bg-[#2E2C26] border-l border-white/10 flex flex-col p-5 gap-4">
           {/* Feedback */}
           <div>
-            <div className="text-blue-300 text-xs uppercase tracking-wider mb-3">AI Feedback</div>
+            <div className="text-[#b0ad9e] text-xs uppercase tracking-wider mb-3">AI Feedback</div>
             <div className={`p-4 rounded-xl border ${
               feedback.type === "success" ? "bg-emerald-500/10 border-emerald-400/30" :
               feedback.type === "warning" ? "bg-amber-500/10 border-amber-400/30" :
@@ -227,7 +227,7 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
                 )}
                 <p className={`text-sm leading-relaxed ${
                   feedback.type === "success" ? "text-emerald-300" :
-                  feedback.type === "warning" ? "text-amber-300" : "text-blue-300"
+                  feedback.type === "warning" ? "text-amber-300" : "text-[#b0ad9e]"
                 }`}>
                   {feedback.msg}
                 </p>
@@ -238,58 +238,58 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
           {/* Metrics */}
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-              <div className="text-blue-300 text-xs mb-1">Knee Angle</div>
+              <div className="text-[#b0ad9e] text-xs mb-1">Knee Angle</div>
               <div className="text-white text-xl font-bold font-mono">{kneeAngle}°</div>
-              <div className="text-blue-400 text-xs">Target: 90°</div>
+              <div className="text-[#a0a88c] text-xs">Target: 90°</div>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-              <div className="text-blue-300 text-xs mb-1">Repetitions</div>
+              <div className="text-[#b0ad9e] text-xs mb-1">Repetitions</div>
               <div className="text-white text-xl font-bold font-mono">{reps}/{TARGET_REPS}</div>
-              <div className="text-blue-400 text-xs">Set 2 of 3</div>
+              <div className="text-[#a0a88c] text-xs">Set 2 of 3</div>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-              <div className="text-blue-300 text-xs mb-1">Similarity</div>
-              <div className="text-cyan-400 text-xl font-bold font-mono">{similarity}%</div>
-              <div className="text-blue-400 text-xs">DTW Score</div>
+              <div className="text-[#b0ad9e] text-xs mb-1">Similarity</div>
+              <div className="text-[#a0c4b8] text-xl font-bold font-mono">{similarity}%</div>
+              <div className="text-[#a0a88c] text-xs">DTW Score</div>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-3 text-center">
-              <div className="text-blue-300 text-xs mb-1">Timer</div>
+              <div className="text-[#b0ad9e] text-xs mb-1">Timer</div>
               <div className="text-white text-xl font-bold font-mono">{formatTime(timer)}</div>
-              <div className="text-blue-400 text-xs">Session</div>
+              <div className="text-[#a0a88c] text-xs">Session</div>
             </div>
           </div>
 
           {/* Progress bar */}
           <div>
             <div className="flex justify-between mb-2">
-              <span className="text-blue-300 text-xs">Exercise Progress</span>
+              <span className="text-[#b0ad9e] text-xs">Exercise Progress</span>
               <span className="text-white text-xs font-mono">{Math.round(progress)}%</span>
             </div>
             <div className="h-3 bg-white/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-primary to-cyan-400 rounded-full transition-all duration-500"
+                className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-500"
                 style={{ width: `${progress}%` }}
               />
             </div>
             <div className="flex justify-between mt-1.5">
-              <span className="text-blue-400 text-xs">0 reps</span>
-              <span className="text-blue-400 text-xs">{TARGET_REPS} reps</span>
+              <span className="text-[#a0a88c] text-xs">0 reps</span>
+              <span className="text-[#a0a88c] text-xs">{TARGET_REPS} reps</span>
             </div>
           </div>
 
           {/* Joint angles breakdown */}
           <div>
-            <div className="text-blue-300 text-xs uppercase tracking-wider mb-3">Joint Angles</div>
+            <div className="text-[#b0ad9e] text-xs uppercase tracking-wider mb-3">Joint Angles</div>
             <div className="space-y-2.5">
               {[
-                { label: "Left Knee", angle: kneeAngle, target: 90, color: "bg-cyan-400" },
+                { label: "Left Knee", angle: kneeAngle, target: 90, color: "bg-[#a0a88c]" },
                 { label: "Right Knee", angle: 12, target: 15, color: "bg-blue-400" },
                 { label: "Left Hip", angle: 95, target: 90, color: "bg-emerald-400" },
                 { label: "Spine", angle: 178, target: 180, color: "bg-violet-400" },
               ].map((joint) => (
                 <div key={joint.label}>
                   <div className="flex justify-between text-xs mb-1">
-                    <span className="text-blue-300">{joint.label}</span>
+                    <span className="text-[#b0ad9e]">{joint.label}</span>
                     <span className="text-white font-mono">{joint.angle}°</span>
                   </div>
                   <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">

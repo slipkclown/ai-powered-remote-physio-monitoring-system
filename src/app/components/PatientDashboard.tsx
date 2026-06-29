@@ -4,6 +4,7 @@ import {
 } from "lucide-react";
 import { useMemo } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { RecoveryCompass } from "./RecoveryCompass";
 import { useRehab } from "../context/RehabContext";
 import { toast } from "sonner";
 
@@ -68,13 +69,13 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#1e3a8a] flex flex-col flex-shrink-0">
-        <div className="p-6 border-b border-sidebar-border">
+      <aside className="w-64 bg-[#305066] flex flex-col flex-shrink-0">
+        <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(250,244,229,0.15)" }}>
               <Activity className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-white text-lg tracking-tight">Recovr</span>
+            <span className="font-bold text-lg tracking-tight" style={{ color: "#FAF4E5" }}>Recovr</span>
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">
@@ -83,8 +84,9 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
               key={item.label}
               onClick={() => onNavigate(item.page)}
               className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
-                item.label === "Home" ? "bg-white/15 text-white" : "text-blue-200 hover:bg-white/10 hover:text-white"
+                item.label === "Home" ? "bg-white/15 font-medium" : "hover:bg-white/8"
               }`}
+              style={{ color: item.label === "Home" ? "#FAF4E5" : "rgba(250,244,229,0.65)" }}
             >
               {item.icon}
               {item.label}
@@ -94,12 +96,12 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
             </button>
           ))}
         </nav>
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-cyan-400 flex items-center justify-center text-[#1e3a8a] font-semibold">MA</div>
+            <div className="w-9 h-9 rounded-full flex items-center justify-center" className="font-semibold" style={{ background: "rgba(250,244,229,0.2)", color: "#FAF4E5" }}>MA</div>
             <div>
-              <div className="text-white text-sm">Muhammad Arif</div>
-              <div className="text-blue-300 text-xs">ACL Rehabilitation · Week 3</div>
+              <div className="text-sm" style={{ color: "#FAF4E5" }}>Muhammad Arif</div>
+              <div className="text-xs" style={{ color: "rgba(250,244,229,0.6)" }}>ACL Rehabilitation · Week 3</div>
             </div>
           </div>
         </div>
@@ -108,7 +110,7 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
       <main className="flex-1 overflow-y-auto">
         <div className="p-8">
           {/* Welcome header */}
-          <div className="bg-gradient-to-r from-[#eff6ff] to-[#f0fdf4] border border-primary/10 rounded-2xl p-6 mb-6 flex items-center justify-between gap-4">
+          <div className="bg-gradient-to-r from-[#F5EED6] to-[#FAF4E5] border border-primary/10 rounded-2xl p-6 mb-6 flex items-center justify-between gap-4">
             <div className="flex-1">
               <h1 className="text-foreground text-2xl font-bold mb-1">Welcome back, Muhammad.</h1>
               <p className="text-muted-foreground text-sm mb-2">Week 3 of ACL Rehabilitation · Dr. Sarah Chen</p>
@@ -119,7 +121,7 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
               <div className="text-center bg-white border border-border rounded-2xl px-5 py-4 shadow-sm cursor-pointer hover:shadow-md transition-shadow" onClick={() => onNavigate("progress-history")}>
                 <div className="text-primary text-3xl font-extrabold leading-none mb-0.5">{recoveryScore}</div>
                 <div className="text-muted-foreground text-xs">Recovery Score</div>
-                <div className="text-emerald-600 text-xs font-medium mt-0.5">↑ On Track</div>
+                <div className="text-accent text-xs font-medium mt-0.5">↑ On Track</div>
               </div>
               {/* Notification bell */}
               {myNotifications.filter((n) => !n.read).length > 0 && (
@@ -158,18 +160,18 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
           </div>
 
           {/* Milestones */}
-          <div className="bg-gradient-to-r from-[#1e3a8a] to-[#1d4ed8] rounded-2xl p-5 mb-6">
+          <div className="bg-primary rounded-2xl p-5 mb-6">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <Zap className="w-5 h-5 text-cyan-300" />
                 <span className="text-white font-medium">Recovery Milestones</span>
               </div>
-              <span className="text-blue-200 text-sm">{milestoneDone}/{milestones.length} achieved</span>
+              <span className="text-[#FAF4E5]/75 text-sm">{milestoneDone}/{milestones.length} achieved</span>
             </div>
             <div className="flex gap-2 flex-wrap mb-3">
               {milestones.map((m) => (
                 <div key={m.label} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs border ${
-                  m.done ? "bg-emerald-500/20 border-emerald-400/40 text-emerald-300" : "bg-white/10 border-white/20 text-blue-300"
+                  m.done ? "bg-emerald-500/20 border-emerald-400/40 text-emerald-300" : "bg-white/10 border-white/20 text-white/60"
                 }`}>
                   <CheckCircle className={`w-3.5 h-3.5 ${m.done ? "text-emerald-400" : "text-white/30"}`} />
                   {m.label}
@@ -183,6 +185,20 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
 
           <div className="grid lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
+              {/* Recovery Compass */}
+              <RecoveryCompass
+                movementQuality={88}
+                confidence={80}
+                adherence={70}
+                reflection={65}
+                painCheck={30}
+                overallProgress={60}
+                onNavigate={onNavigate}
+              />
+
+              {/* Adaptive Encouragement */}
+              <AdaptiveEncouragement score={recoveryScore} onNavigate={onNavigate} />
+
               {/* Chart */}
               <div className="bg-card border border-border rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-5">
@@ -311,10 +327,10 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
               </div>
 
               {/* Progress summary */}
-              <div className="bg-gradient-to-br from-[#1e3a8a] to-[#1d4ed8] rounded-2xl p-6 text-white">
+              <div className="bg-primary rounded-2xl p-6 text-white">
                 <h3 className="text-white mb-3">Rehabilitation Progress</h3>
                 <div className="mb-4">
-                  <div className="flex justify-between text-sm text-blue-200 mb-2">
+                  <div className="flex justify-between text-sm text-[#FAF4E5]/75 mb-2">
                     <span>Week 3 of 8</span>
                     <span>38%</span>
                   </div>
@@ -322,7 +338,7 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
                     <div className="h-full bg-cyan-400 rounded-full" style={{ width: "38%" }} />
                   </div>
                 </div>
-                <p className="text-blue-200 text-xs leading-relaxed">Your knee angle has improved by 12° since Week 1. Keep it up!</p>
+                <p className="text-[#FAF4E5]/75 text-xs leading-relaxed">Your knee angle has improved by 12° since Week 1. Keep it up!</p>
                 <button onClick={() => onNavigate("progress-history")}
                   className="mt-4 w-full py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg text-sm transition-colors">
                   View Detailed Progress
@@ -332,6 +348,41 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
           </div>
         </div>
       </main>
+    </div>
+  );
+}
+
+const ADAPTIVE_MESSAGES: Record<string, { heading: string; body: string }> = {
+  great: {
+    heading: "You're making excellent progress.",
+    body: "Your consistency is paying off. Every session is building strength and confidence — keep going.",
+  },
+  good: {
+    heading: "You're on the right path.",
+    body: "Recovery isn't always linear, and that's completely normal. Every session matters, no matter how it feels.",
+  },
+  building: {
+    heading: "Every step forward counts.",
+    body: "It's okay to take recovery one step at a time. You're building confidence with every movement.",
+  },
+  early: {
+    heading: "You've started your journey.",
+    body: "Starting is the hardest part. You're here, you're showing up, and that's what matters most right now.",
+  },
+};
+
+function AdaptiveEncouragement({ score, onNavigate }: { score: number; onNavigate: (p: string) => void }) {
+  const key = score >= 78 ? "great" : score >= 65 ? "good" : score >= 50 ? "building" : "early";
+  const msg = ADAPTIVE_MESSAGES[key];
+  return (
+    <div className="bg-card border border-border rounded-2xl p-5 flex items-start gap-4">
+      <div className="w-10 h-10 rounded-2xl bg-accent/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+        <Heart className="w-5 h-5 text-accent" />
+      </div>
+      <div className="flex-1">
+        <div className="text-foreground font-semibold text-sm mb-1">{msg.heading}</div>
+        <p className="text-muted-foreground text-sm leading-relaxed">{msg.body}</p>
+      </div>
     </div>
   );
 }

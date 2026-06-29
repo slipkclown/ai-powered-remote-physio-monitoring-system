@@ -3,7 +3,7 @@ import { PatientLayout } from "./PatientLayout";
 import { useState } from "react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ResponsiveContainer, ReferenceLine, Area, AreaChart,
+  ResponsiveContainer, ReferenceLine,
 } from "recharts";
 import { toast } from "sonner";
 
@@ -80,13 +80,7 @@ export function ConfidenceTracking({ onNavigate }: ConfidenceTrackingProps) {
             <span className="text-xs text-muted-foreground">Week 1 → Week 6</span>
           </div>
           <ResponsiveContainer width="100%" height={200}>
-            <AreaChart data={chartData.filter((d) => d.score !== null)}>
-              <defs>
-                <linearGradient id="confGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#1d4ed8" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#1d4ed8" stopOpacity={0} />
-                </linearGradient>
-              </defs>
+            <LineChart data={chartData.filter((d) => d.score !== null)}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(29,78,216,0.08)" />
               <XAxis dataKey="week" tick={{ fontSize: 11, fill: "#4b6080" }} axisLine={false} tickLine={false} />
               <YAxis domain={[0, 5]} ticks={[1, 2, 3, 4, 5]} tick={{ fontSize: 11, fill: "#4b6080" }} axisLine={false} tickLine={false} />
@@ -95,8 +89,8 @@ export function ConfidenceTracking({ onNavigate }: ConfidenceTrackingProps) {
                 formatter={(v: number) => [`${v}/5 — ${scaleLabels[v] || ""}`, "Confidence"]}
               />
               <ReferenceLine y={3} stroke="#059669" strokeDasharray="4 2" strokeOpacity={0.5} label={{ value: "Target", fontSize: 10, fill: "#059669" }} />
-              <Area type="monotone" dataKey="score" stroke="#1d4ed8" fill="url(#confGrad)" strokeWidth={2.5} dot={{ r: 5, fill: "#1d4ed8" }} activeDot={{ r: 7 }} />
-            </AreaChart>
+              <Line key="score" type="monotone" dataKey="score" stroke="#1d4ed8" strokeWidth={2.5} dot={{ r: 5, fill: "#1d4ed8" }} activeDot={{ r: 7 }} />
+            </LineChart>
           </ResponsiveContainer>
           <div className="flex items-center gap-2 mt-2">
             <div className="w-3 h-0.5 bg-emerald-500 border-dashed" style={{ borderTop: "2px dashed #059669" }} />
@@ -143,7 +137,7 @@ export function ConfidenceTracking({ onNavigate }: ConfidenceTrackingProps) {
             </div>
 
             {avgScore !== null && (
-              <div className="mt-6 p-4 bg-secondary rounded-xl border border-primary/20">
+              <div className="mt-6 p-4 bg-secondary rounded-xl border border-border">
                 <div className="text-muted-foreground text-xs mb-1">Current Average Score</div>
                 <div className="text-primary text-2xl font-bold">{avgScore} / 5</div>
                 <div className="text-foreground text-sm">{scaleLabels[avgScore]}</div>

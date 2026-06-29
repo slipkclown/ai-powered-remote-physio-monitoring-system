@@ -2,43 +2,47 @@
 
 :root {
   --font-size: 16px;
-  --background: #f8fbff;
-  --foreground: #1a2f52;
-  --card: #ffffff;
-  --card-foreground: #1a2f52;
-  --popover: #ffffff;
-  --popover-foreground: #1a2f52;
-  --primary: #2563eb;
-  --primary-foreground: #ffffff;
-  --secondary: #eff6ff;
-  --secondary-foreground: #1e40af;
-  --muted: #f0f7ff;
-  --muted-foreground: #5b7299;
-  --accent: #0ea472;
-  --accent-foreground: #ffffff;
-  --destructive: #dc2626;
+  /* ── Recovr Minimal two-colour palette ──────────────
+     Cream      #FAF4E5  – entire background, cards, forms
+     Deep Ocean #305066  – nav, logo, buttons, text, footer
+  ────────────────────────────────────────────────────── */
+  --background: #FAF4E5;
+  --foreground: #305066;
+  --card: #F5EED6;
+  --card-foreground: #305066;
+  --popover: #F5EED6;
+  --popover-foreground: #305066;
+  --primary: #305066;
+  --primary-foreground: #FAF4E5;
+  --secondary: #EDE7D3;
+  --secondary-foreground: #305066;
+  --muted: #E8E1CD;
+  --muted-foreground: #5a7485;
+  --accent: #305066;
+  --accent-foreground: #FAF4E5;
+  --destructive: #a84040;
   --destructive-foreground: #ffffff;
-  --border: rgba(37, 99, 235, 0.10);
+  --border: rgba(48, 80, 102, 0.15);
   --input: transparent;
-  --input-background: #f0f6ff;
-  --switch-background: #93c5fd;
+  --input-background: #FAF4E5;
+  --switch-background: #305066;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: #93c5fd;
-  --chart-1: #1d4ed8;
-  --chart-2: #059669;
-  --chart-3: #0891b2;
-  --chart-4: #7c3aed;
-  --chart-5: #f59e0b;
-  --radius: 0.75rem;
-  --sidebar: #1e3a8a;
-  --sidebar-foreground: #e0eaff;
-  --sidebar-primary: #60a5fa;
-  --sidebar-primary-foreground: #0d1f3c;
-  --sidebar-accent: #1d4ed8;
-  --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(96, 165, 250, 0.2);
-  --sidebar-ring: #60a5fa;
+  --ring: #305066;
+  --chart-1: #305066;
+  --chart-2: #5a7485;
+  --chart-3: #8aa0ae;
+  --chart-4: #b8c9d0;
+  --chart-5: #EDE7D3;
+  --radius: 1.25rem;
+  --sidebar: #305066;
+  --sidebar-foreground: #FAF4E5;
+  --sidebar-primary: #FAF4E5;
+  --sidebar-primary-foreground: #305066;
+  --sidebar-accent: #3d6480;
+  --sidebar-accent-foreground: #FAF4E5;
+  --sidebar-border: rgba(255,255,255,0.10);
+  --sidebar-ring: #FAF4E5;
 }
 
 .dark {
@@ -126,7 +130,7 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    font-family: 'Manrope', 'Inter', system-ui, sans-serif;
   }
 
   /**

@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronUp, TrendingUp } from "lucide-react";
 import { useState } from "react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { PatientLayout } from "./PatientLayout";
 
 interface ProgressHistoryProps {
@@ -77,19 +77,13 @@ export function ProgressHistory({ onNavigate }: ProgressHistoryProps) {
         <div className="bg-card border border-border rounded-2xl p-6 mb-8">
           <h3 className="text-foreground mb-5">Overall Performance Trend</h3>
           <ResponsiveContainer width="100%" height={180}>
-            <AreaChart data={trendData}>
-              <defs>
-                <linearGradient id="histGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#1d4ed8" stopOpacity={0.2} />
-                  <stop offset="95%" stopColor="#1d4ed8" stopOpacity={0} />
-                </linearGradient>
-              </defs>
+            <LineChart data={trendData}>
               <CartesianGrid strokeDasharray="3 3" stroke="rgba(29,78,216,0.08)" />
               <XAxis dataKey="week" tick={{ fontSize: 11, fill: "#4b6080" }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill: "#4b6080" }} axisLine={false} tickLine={false} domain={[50, 100]} />
               <Tooltip contentStyle={{ background: "#fff", border: "1px solid rgba(29,78,216,0.15)", borderRadius: 10, fontSize: 12 }} />
-              <Area type="monotone" dataKey="score" stroke="#1d4ed8" fill="url(#histGrad)" strokeWidth={2.5} dot={{ r: 5, fill: "#1d4ed8" }} />
-            </AreaChart>
+              <Line key="score" type="monotone" dataKey="score" stroke="#1d4ed8" strokeWidth={2.5} dot={{ r: 5, fill: "#1d4ed8" }} activeDot={{ r: 6 }} />
+            </LineChart>
           </ResponsiveContainer>
         </div>
 

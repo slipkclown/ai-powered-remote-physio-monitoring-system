@@ -3,7 +3,7 @@ import {
   Home, Key, MessageSquare, Plus, Search, TrendingUp, UserCheck, Users, X, FileText, User, BookOpen
 } from "lucide-react";
 import { useRef, useState } from "react";
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { toast } from "sonner";
 import { useRehab } from "../context/RehabContext";
 import { PhysioMessages } from "./PhysioMessages";
@@ -35,7 +35,7 @@ const errorData = [
   { error: "Balance Issues", count: 5 },
 ];
 
-type Tab = "Overview" | "Patients" | "Assign Exercises" | "Reports" | "Journal Review" | "Messages" | "Notifications" | "Confidence Monitoring" | "Profile";
+type Tab = "Overview" | "Patients" | "Assign Exercises" | "Reports" | "Journal Review" | "Messages" | "Notifications" | "Confidence Monitoring" | "Recovery Insights" | "Profile";
 
 // Total rehab programme weeks by diagnosis
 const TOTAL_WEEKS: Record<string, number> = {
@@ -167,6 +167,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
     { icon: <MessageSquare className="w-4 h-4" />, label: "Messages", badge: totalUnreadPhysioMessages },
     { icon: <Bell className="w-4 h-4" />, label: "Notifications", badge: unreadPhysio },
     { icon: <Activity className="w-4 h-4" />, label: "Confidence Monitoring" },
+    { icon: <TrendingUp className="w-4 h-4" />, label: "Recovery Insights" },
     { icon: <User className="w-4 h-4" />, label: "Profile" },
   ];
 
@@ -178,13 +179,13 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
   return (
     <div className="min-h-screen bg-background flex">
       {/* Sidebar */}
-      <aside className="w-64 bg-[#1e3a8a] flex flex-col flex-shrink-0">
-        <div className="p-6 border-b border-sidebar-border">
+      <aside className="w-64 bg-[#305066] flex flex-col flex-shrink-0">
+        <div className="p-6 border-b border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center">
+            <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(250,244,229,0.15)" }}>
               <Activity className="w-5 h-5 text-white" />
             </div>
-            <span className="font-semibold text-white text-sm">Recovr</span>
+            <span className="font-semibold text-sm" style={{ color: "#FAF4E5" }}>Recovr</span>
           </div>
         </div>
         <nav className="flex-1 p-4 space-y-1">
@@ -204,7 +205,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
                 className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${
                   isActive
                     ? "bg-white/15 text-white"
-                    : "text-blue-200 hover:bg-white/10 hover:text-white"
+                    : "text-white/65 hover:bg-white/10 hover:text-white"
                 }`}
               >
                 {item.icon}
@@ -218,14 +219,14 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
             );
           })}
         </nav>
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-emerald-400 flex items-center justify-center text-[#1e3a8a] font-semibold">
+            <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold" style={{ background: "rgba(250,244,229,0.2)", color: "#FAF4E5" }}>
               SC
             </div>
             <div>
               <div className="text-white text-sm">Dr. Sarah Chen</div>
-              <div className="text-blue-300 text-xs">Physiotherapist</div>
+              <div className="text-xs" style={{ color: "rgba(250,244,229,0.6)" }}>Physiotherapist</div>
             </div>
           </div>
         </div>
@@ -315,25 +316,15 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
                 <div className="bg-card border border-border rounded-2xl p-6">
                   <h3 className="text-foreground mb-5">Weekly Performance Trends</h3>
                   <ResponsiveContainer width="100%" height={200}>
-                    <AreaChart data={weeklyData}>
-                      <defs>
-                        <linearGradient id="arifGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#1d4ed8" stopOpacity={0.2} />
-                          <stop offset="95%" stopColor="#1d4ed8" stopOpacity={0} />
-                        </linearGradient>
-                        <linearGradient id="sitiGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#059669" stopOpacity={0.2} />
-                          <stop offset="95%" stopColor="#059669" stopOpacity={0} />
-                        </linearGradient>
-                      </defs>
+                    <LineChart data={weeklyData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(29,78,216,0.08)" />
                       <XAxis dataKey="week" tick={{ fontSize: 11, fill: "#4b6080" }} axisLine={false} tickLine={false} />
                       <YAxis tick={{ fontSize: 11, fill: "#4b6080" }} axisLine={false} tickLine={false} domain={[40, 100]} />
                       <Tooltip contentStyle={{ background: "#fff", border: "1px solid rgba(29,78,216,0.15)", borderRadius: 10, fontSize: 12 }} />
-                      <Area type="monotone" dataKey="arif" name="M. Arif" stroke="#1d4ed8" fill="url(#arifGrad)" strokeWidth={2} />
-                      <Area type="monotone" dataKey="siti" name="S. Aminah" stroke="#059669" fill="url(#sitiGrad)" strokeWidth={2} />
-                      <Area type="monotone" dataKey="raj" name="R. Kumar" stroke="#0891b2" fill="none" strokeWidth={2} strokeDasharray="4 2" />
-                    </AreaChart>
+                      <Line key="arif" type="monotone" dataKey="arif" name="M. Arif" stroke="#1d4ed8" strokeWidth={2} dot={{ r: 3, fill: "#1d4ed8" }} activeDot={{ r: 5 }} />
+                      <Line key="siti" type="monotone" dataKey="siti" name="S. Aminah" stroke="#059669" strokeWidth={2} dot={{ r: 3, fill: "#059669" }} activeDot={{ r: 5 }} />
+                      <Line key="raj" type="monotone" dataKey="raj" name="R. Kumar" stroke="#0891b2" strokeWidth={2} strokeDasharray="4 2" dot={false} />
+                    </LineChart>
                   </ResponsiveContainer>
                   <div className="flex gap-5 mt-2 justify-center">
                     {[["M. Arif", "#1d4ed8"], ["S. Aminah", "#059669"], ["R. Kumar", "#0891b2"]].map(([name, color]) => (
@@ -435,7 +426,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
                     const pct = Math.min(Math.round((p.week / total) * 100), 100);
                     return (
                       <div key={p.id} className="flex items-center gap-4 p-4 rounded-xl border border-border hover:bg-secondary/30 transition-colors">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#305066] to-[#EDE7D3] flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
                           {p.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -663,7 +654,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
                   };
                   return (
                     <div key={n.id} className={`flex items-start gap-4 p-4 rounded-2xl border transition-colors ${
-                      !n.read ? "bg-blue-50 border-primary/20" : "bg-card border-border"
+                      !n.read ? "bg-secondary/60 border-primary/20" : "bg-card border-border"
                     }`}>
                       <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 ${
                         !n.read ? "bg-secondary" : "bg-muted"
@@ -692,6 +683,11 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
             <ConfidenceMonitoringTab checkIns={checkIns} patients={patients} />
           )}
 
+          {/* ── RECOVERY INSIGHTS TAB ── */}
+          {activeTab === "Recovery Insights" && (
+            <RecoveryInsightsDashboard patients={patients} checkIns={checkIns} journal={journal} getRecoveryStatus={getRecoveryStatus} />
+          )}
+
           {/* ── PROFILE TAB ── */}
           {activeTab === "Profile" && (
             <div className="max-w-2xl space-y-6">
@@ -702,7 +698,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
                     {profilePhoto ? (
                       <img src={profilePhoto} alt="Profile" className="w-20 h-20 rounded-full object-cover" />
                     ) : (
-                      <div className="w-20 h-20 rounded-full bg-emerald-400 flex items-center justify-center text-[#1e3a8a] text-2xl font-bold">
+                      <div className="w-20 h-20 rounded-full flex items-center justify-center text-2xl font-bold" style={{ background: "rgba(250,244,229,0.2)", color: "#FAF4E5" }}>
                         SC
                       </div>
                     )}
@@ -938,7 +934,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
             </div>
             <div className="flex items-center gap-4 mb-6 p-4 bg-secondary rounded-2xl">
               <div className="relative">
-                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-white font-bold text-lg">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-[#305066] to-[#EDE7D3] flex items-center justify-center text-white font-bold text-lg">
                   {showPatientDetail.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                 </div>
                 <button
@@ -967,7 +963,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
               const total = getTotal(showPatientDetail.diagnosis);
               const pct = Math.min(Math.round((showPatientDetail.week / total) * 100), 100);
               return (
-                <div className="bg-gradient-to-r from-[#1e3a8a]/5 to-[#1d4ed8]/10 border border-primary/20 rounded-xl p-4 mb-5">
+                <div className="bg-gradient-to-r from-[#305066]/5 to-[#EDE7D3]/10 border border-primary/20 rounded-xl p-4 mb-5">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-foreground text-sm font-medium">Rehabilitation Progress</span>
                     <span className="text-primary text-sm font-semibold">Week {showPatientDetail.week} of {total}</span>
@@ -1026,7 +1022,7 @@ export function PhysioDashboard({ onNavigate }: PhysioDashboardProps) {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-border">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-white font-semibold text-sm">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#305066] to-[#EDE7D3] flex items-center justify-center text-white font-semibold text-sm">
                   {assigningToPatient.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
                 </div>
                 <div>
@@ -1231,7 +1227,7 @@ function ConfidenceMonitoringTab({ checkIns, patients }: { checkIns: any[]; pati
               <div key={p.id} className="border border-border rounded-xl p-4">
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-white font-medium text-sm">
+                    <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#305066] to-[#EDE7D3] flex items-center justify-center text-white font-medium text-sm">
                       {p.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2)}
                     </div>
                     <div>
@@ -1296,7 +1292,7 @@ function PatientTable({
         return (
           <div key={p.id} className="px-6 py-4 flex items-center gap-4 hover:bg-secondary/30 transition-colors">
             {/* Avatar */}
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-cyan-500 flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#305066] to-[#EDE7D3] flex items-center justify-center text-white font-medium text-sm flex-shrink-0">
               {p.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
             </div>
 
@@ -1326,7 +1322,7 @@ function PatientTable({
 
             {/* Status */}
             <span className={`flex-shrink-0 text-xs px-2.5 py-1 rounded-full ${
-              p.status === "Active" ? "bg-blue-50 text-primary" :
+              p.status === "Active" ? "bg-secondary/60 text-primary" :
               p.status === "New" ? "bg-amber-50 text-amber-700" :
               "bg-emerald-50 text-emerald-700"
             }`}>
@@ -1354,6 +1350,377 @@ function PatientTable({
           </div>
         );
       })}
+    </div>
+  );
+}
+
+
+/* ── Clinical Decision Support Dashboard ─────────────── */
+const OCEAN_CDS = "#305066";
+const CREAM_CDS = "#FAF4E5";
+const BORDER_CDS = "rgba(48,80,102,0.13)";
+const MUTED_CDS = "#5a7485";
+const SERIF_CDS = "'Cormorant Garamond', serif";
+
+function getRiskLevel(score: number, pain: number, confidence: number, adherence: number): {
+  level: "Low" | "Moderate" | "High";
+  color: string;
+  bg: string;
+  explanation: string;
+} {
+  const riskScore = (100 - score) * 0.35 + pain * 3 + (10 - confidence) * 4 + (100 - adherence) * 0.25;
+  if (riskScore < 30) return { level: "Low", color: "#2d6a4f", bg: "rgba(45,106,79,0.08)", explanation: "All recovery indicators are progressing well. Continue current programme." };
+  if (riskScore < 55) return { level: "Moderate", color: "#92400e", bg: "rgba(146,64,14,0.08)", explanation: "Some indicators warrant monitoring. Review confidence and pain trends at next session." };
+  return { level: "High", color: "#991b1b", bg: "rgba(153,27,27,0.08)", explanation: "Multiple risk factors detected. Consider early review appointment and programme adjustment." };
+}
+
+function getAISummary(p: any, latestCheckIn: any, patientJournal: any[], adherence: number): string {
+  const hasGoodScore = p.score >= 80;
+  const hasLowPain = latestCheckIn?.pain <= 4;
+  const hasGoodConfidence = latestCheckIn?.confidence >= 4;
+  const hasJournalEntries = patientJournal.length > 0;
+  const unreviewedCount = patientJournal.filter((e: any) => !e.reviewed).length;
+
+  const parts: string[] = [];
+
+  if (hasGoodScore) {
+    parts.push(`${p.name.split(" ")[0]}'s movement quality is strong at ${p.score}%, indicating consistent technical execution during rehabilitation sessions.`);
+  } else {
+    parts.push(`${p.name.split(" ")[0]}'s movement quality at ${p.score}% suggests room for improvement — exercise technique or frequency may require review.`);
+  }
+
+  if (latestCheckIn) {
+    if (hasGoodConfidence) {
+      parts.push(`Confidence is encouraging at ${latestCheckIn.confidence}/10, reflecting positive psychological adaptation to rehabilitation.`);
+    } else {
+      parts.push(`Confidence at ${latestCheckIn.confidence}/10 is below target — consider discussing rehabilitation goals and addressing fear of re-injury.`);
+    }
+    if (!hasLowPain) {
+      parts.push(`Pain levels reported at ${latestCheckIn.pain}/10 are elevated and should be discussed to rule out overtraining or technique issues.`);
+    }
+  }
+
+  if (adherence < 70) {
+    parts.push(`Programme adherence at ${adherence}% is below the recommended 80% threshold — exploring barriers to engagement may improve outcomes.`);
+  }
+
+  if (hasJournalEntries && unreviewedCount > 0) {
+    parts.push(`${unreviewedCount} unreviewed reflection ${unreviewedCount === 1 ? "entry" : "entries"} may contain important patient-reported concerns awaiting clinical attention.`);
+  }
+
+  return parts.join(" ");
+}
+
+function getAISuggestedActions(p: any, latestCheckIn: any, adherence: number, riskLevel: string): string[] {
+  const actions: string[] = [];
+
+  if (p.score < 75) actions.push("Review exercise technique in next session — consider video analysis of key movements.");
+  if (latestCheckIn?.confidence < 4) actions.push("Address confidence concerns — consider graduated exposure exercises and goal-setting discussion.");
+  if (latestCheckIn?.pain > 5) actions.push("Discuss pain management strategies and consider temporary load reduction.");
+  if (adherence < 70) actions.push("Explore barriers to home exercise adherence — consider simplifying the programme or adjusting session frequency.");
+  if (riskLevel === "High") actions.push("Schedule an earlier follow-up appointment within the next 48–72 hours.");
+  if (latestCheckIn?.motivation < 5) actions.push("Patient motivation appears low — consider a brief motivational check-in conversation at the start of next session.");
+  if (actions.length === 0) actions.push("Continue current rehabilitation programme — patient is progressing well.");
+  if (p.week >= 7) actions.push("Patient approaching end of programme — begin discussing return-to-sport or discharge planning.");
+
+  return actions.slice(0, 4);
+}
+
+function getJournalThemes(entries: any[]): { theme: string; count: number; sentiment: "positive" | "concern" | "neutral"; example: string }[] {
+  const themes = [
+    { keywords: ["swelling", "pain", "sore", "hurt", "uncomfortable"], theme: "Pain & Discomfort", sentiment: "concern" as const },
+    { keywords: ["confident", "better", "stronger", "progress", "improve"], theme: "Progress & Confidence", sentiment: "positive" as const },
+    { keywords: ["frustrated", "slow", "difficult", "hard", "struggle"], theme: "Frustration", sentiment: "concern" as const },
+    { keywords: ["motivated", "determined", "positive", "hopeful"], theme: "Motivation", sentiment: "positive" as const },
+    { keywords: ["afraid", "fear", "worried", "nervous", "scared"], theme: "Fear of Re-injury", sentiment: "concern" as const },
+    { keywords: ["stiff", "stiffness", "morning", "tight"], theme: "Morning Stiffness", sentiment: "neutral" as const },
+  ];
+  const found: { theme: string; count: number; sentiment: "positive" | "concern" | "neutral"; example: string }[] = [];
+  for (const t of themes) {
+    const matching = entries.filter(e => t.keywords.some(kw => e.body.toLowerCase().includes(kw)));
+    if (matching.length > 0) {
+      found.push({ theme: t.theme, count: matching.length, sentiment: t.sentiment, example: matching[0].body.slice(0, 80) + "…" });
+    }
+  }
+  return found.slice(0, 4);
+}
+
+function TrendBadge({ value, target, label }: { value: number; target: number; label: string }) {
+  const good = value >= target;
+  const icon = good ? "↑" : "↓";
+  return (
+    <div className="flex items-center gap-1.5">
+      <span className="text-xs font-semibold" style={{ color: good ? "#2d6a4f" : "#991b1b" }}>{icon} {label}</span>
+    </div>
+  );
+}
+
+function RecoveryInsightsDashboard({
+  patients, checkIns, journal, getRecoveryStatus,
+}: {
+  patients: typeof initialPatients;
+  checkIns: any[];
+  journal: any[];
+  getRecoveryStatus: (score: number, patientId: string) => string;
+}) {
+  const [selected, setSelected] = useState<typeof initialPatients[0] | null>(patients[0]);
+  const p = selected ?? patients[0];
+  const status = getRecoveryStatus(p.score, p.id);
+  const latestCheckIn = checkIns.find((c) => c.patientName === p.name);
+  const patientJournal = journal.filter((e: any) => e.patientName === p.name);
+  const adherence = Math.round((p.week / 8) * 100);
+  const risk = getRiskLevel(p.score, latestCheckIn?.pain ?? 3, latestCheckIn?.confidence ?? 5, adherence);
+  const aiSummary = getAISummary(p, latestCheckIn, patientJournal, adherence);
+  const aiActions = getAISuggestedActions(p, latestCheckIn, adherence, risk.level);
+  const journalThemes = getJournalThemes(patientJournal);
+
+  // Priority alerts across all patients
+  const alerts = patients.map(pt => {
+    const ci = checkIns.find(c => c.patientName === pt.name);
+    const flags: string[] = [];
+    if (ci?.pain >= 7) flags.push("High pain level reported");
+    if (ci?.confidence <= 3) flags.push("Low confidence detected");
+    if (pt.score < 65) flags.push("Movement quality declining");
+    const unreview = journal.filter((e: any) => e.patientName === pt.name && !e.reviewed).length;
+    if (unreview > 0) flags.push(`${unreview} unreviewed reflection${unreview > 1 ? "s" : ""}`);
+    return flags.length > 0 ? { name: pt.name.split(" ")[0], id: pt.id, flags } : null;
+  }).filter(Boolean) as { name: string; id: string; flags: string[] }[];
+
+  const statusCfg: Record<string, { dot: string; label: string; bg: string; textColor: string }> = {
+    "On Track":       { dot: "#2d6a4f", label: "On Track",       bg: "rgba(45,106,79,0.08)",    textColor: "#2d6a4f" },
+    "Needs Attention": { dot: "#92400e", label: "Needs Attention", bg: "rgba(146,64,14,0.08)",   textColor: "#92400e" },
+    "Review Required": { dot: "#991b1b", label: "Review Required", bg: "rgba(153,27,27,0.08)",   textColor: "#991b1b" },
+  };
+  const sc = statusCfg[status] ?? statusCfg["Needs Attention"];
+
+  return (
+    <div className="space-y-6" style={{ fontFamily: "'Manrope','Inter',sans-serif" }}>
+
+      {/* ── Page title ── */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 style={{ fontFamily: SERIF_CDS, color: OCEAN_CDS, fontSize: "1.9rem", fontWeight: 500, lineHeight: 1.1 }}>
+            Clinical Decision Support
+          </h2>
+          <p className="text-sm mt-1" style={{ color: MUTED_CDS }}>Intelligent recovery analysis for informed physiotherapy decisions.</p>
+        </div>
+      </div>
+
+      {/* ── Priority Alerts ── */}
+      {alerts.length > 0 && (
+        <div className="rounded-2xl p-5 border" style={{ background: "rgba(153,27,27,0.05)", borderColor: "rgba(153,27,27,0.2)" }}>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#991b1b" }} />
+            <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#991b1b" }}>Priority Alerts</span>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            {alerts.map((a) => (
+              <div key={a!.id} className="rounded-xl p-3.5 border" style={{ background: "rgba(153,27,27,0.04)", borderColor: "rgba(153,27,27,0.15)" }}>
+                <div className="font-semibold text-sm mb-1.5" style={{ color: "#991b1b" }}>{a!.name}</div>
+                <div className="space-y-1">
+                  {a!.flags.map(f => (
+                    <div key={f} className="flex items-center gap-2 text-xs" style={{ color: "#7f1d1d" }}>
+                      <span>·</span>{f}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Patient selector ── */}
+      <div className="flex gap-2 flex-wrap">
+        {patients.map((pat) => {
+          const s = getRecoveryStatus(pat.score, pat.id);
+          const dotColor = s === "On Track" ? "#2d6a4f" : s === "Needs Attention" ? "#92400e" : "#991b1b";
+          const isSelected = selected?.id === pat.id;
+          return (
+            <button key={pat.id} onClick={() => setSelected(pat)}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium transition-all hover:opacity-90 border"
+              style={isSelected
+                ? { background: OCEAN_CDS, color: CREAM_CDS, borderColor: OCEAN_CDS }
+                : { background: CREAM_CDS, color: OCEAN_CDS, borderColor: BORDER_CDS }}>
+              <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: dotColor }} />
+              {pat.name.split(" ")[0]}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* ── Patient header ── */}
+      <div className="rounded-2xl p-6 border flex items-center justify-between" style={{ background: CREAM_CDS, borderColor: BORDER_CDS }}>
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg"
+            style={{ background: OCEAN_CDS }}>
+            {p.name.split(" ").map((n: string) => n[0]).join("").slice(0, 2)}
+          </div>
+          <div>
+            <h3 className="font-bold text-lg" style={{ color: OCEAN_CDS }}>{p.name}</h3>
+            <div className="text-sm" style={{ color: MUTED_CDS }}>{p.id} · {p.diagnosis} · Week {p.week} of 8</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-3">
+          {/* Recovery Status */}
+          <div className="rounded-xl px-4 py-2.5 border text-center min-w-[120px]" style={{ background: sc.bg, borderColor: `${sc.dot}30` }}>
+            <div className="text-xs uppercase tracking-widest mb-1" style={{ color: sc.dot, opacity: 0.7 }}>Recovery Status</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <div className="w-2 h-2 rounded-full" style={{ background: sc.dot }} />
+              <span className="font-bold text-sm" style={{ color: sc.textColor }}>{sc.label}</span>
+            </div>
+          </div>
+          {/* Risk Level */}
+          <div className="rounded-xl px-4 py-2.5 border text-center min-w-[120px]" style={{ background: risk.bg, borderColor: `${risk.color}30` }}>
+            <div className="text-xs uppercase tracking-widest mb-1" style={{ color: risk.color, opacity: 0.7 }}>Risk Level</div>
+            <div className="flex items-center justify-center gap-1.5">
+              <div className="w-2 h-2 rounded-full" style={{ background: risk.color }} />
+              <span className="font-bold text-sm" style={{ color: risk.color }}>{risk.level}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── AI Recovery Intelligence Summary ── */}
+      <div className="rounded-2xl p-6 border" style={{ background: `${OCEAN_CDS}06`, borderColor: `${OCEAN_CDS}20` }}>
+        <div className="flex items-center gap-2 mb-3">
+          <div className="w-5 h-5 rounded-lg flex items-center justify-center text-xs" style={{ background: OCEAN_CDS, color: CREAM_CDS }}>✦</div>
+          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: OCEAN_CDS }}>AI Recovery Intelligence</span>
+        </div>
+        <p className="text-sm leading-relaxed mb-4" style={{ color: OCEAN_CDS }}>{aiSummary}</p>
+        <div className="rounded-xl p-4 border" style={{ background: CREAM_CDS, borderColor: BORDER_CDS }}>
+          <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: MUTED_CDS }}>AI Suggested Actions</div>
+          <div className="space-y-2.5">
+            {aiActions.map((action, i) => (
+              <div key={i} className="flex items-start gap-2.5">
+                <div className="w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5"
+                  style={{ background: `${OCEAN_CDS}15`, color: OCEAN_CDS }}>
+                  {i + 1}
+                </div>
+                <p className="text-sm" style={{ color: OCEAN_CDS }}>{action}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="text-xs mt-3" style={{ color: MUTED_CDS }}>These are AI-generated observations to support clinical judgement, not replace it.</p>
+      </div>
+
+      {/* ── Key indicators with trend context ── */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+        {[
+          { label: "Movement Quality", value: `${p.score}%`, target: 80, numeric: p.score, context: p.score >= 80 ? "Within target range" : "Below target — review technique", icon: "⚡" },
+          { label: "Programme Adherence", value: `${adherence}%`, target: 80, numeric: adherence, context: adherence >= 80 ? "Excellent consistency" : "Needs improvement", icon: "📋" },
+          { label: "Confidence", value: latestCheckIn ? `${latestCheckIn.confidence}/10` : "—", target: 7, numeric: (latestCheckIn?.confidence ?? 0) * 10, context: latestCheckIn?.confidence >= 7 ? "Positive psychological adaptation" : "Requires support", icon: "💪" },
+          { label: "Pain Level", value: latestCheckIn ? `${latestCheckIn.pain}/10` : "—", target: 0, numeric: latestCheckIn ? 100 - latestCheckIn.pain * 10 : 100, context: latestCheckIn?.pain <= 3 ? "Well managed" : "Elevated — discuss at next session", icon: "🩺" },
+          { label: "Motivation", value: latestCheckIn ? `${latestCheckIn.motivation}/10` : "—", target: 7, numeric: (latestCheckIn?.motivation ?? 0) * 10, context: latestCheckIn?.motivation >= 7 ? "Highly engaged" : "May need encouragement", icon: "🌱" },
+          { label: "Reflections", value: `${patientJournal.length} entries`, target: 1, numeric: patientJournal.length > 0 ? 100 : 0, context: patientJournal.filter((e: any) => !e.reviewed).length > 0 ? `${patientJournal.filter((e: any) => !e.reviewed).length} awaiting review` : "All reviewed", icon: "📖" },
+        ].map((item) => (
+          <div key={item.label} className="rounded-2xl p-5 border" style={{ background: CREAM_CDS, borderColor: BORDER_CDS }}>
+            <div className="flex items-start justify-between mb-2">
+              <span className="text-lg">{item.icon}</span>
+              <div className="w-full ml-3">
+                <div className="text-xs uppercase tracking-widest mb-1" style={{ color: MUTED_CDS }}>{item.label}</div>
+                <div className="text-2xl font-bold mb-0.5" style={{ color: OCEAN_CDS }}>{item.value}</div>
+                <div className="h-1.5 rounded-full mt-2 mb-2" style={{ background: `${OCEAN_CDS}15` }}>
+                  <div className="h-full rounded-full transition-all" style={{ width: `${Math.min(item.numeric, 100)}%`, background: item.numeric >= item.target ? "#2d6a4f" : "#92400e" }} />
+                </div>
+                <p className="text-xs" style={{ color: MUTED_CDS }}>{item.context}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ── Risk explanation ── */}
+      <div className="rounded-2xl p-5 border" style={{ background: risk.bg, borderColor: `${risk.color}25` }}>
+        <div className="flex items-center gap-2 mb-1.5">
+          <div className="w-2.5 h-2.5 rounded-full" style={{ background: risk.color }} />
+          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: risk.color }}>Recovery Risk Assessment</span>
+        </div>
+        <p className="text-sm" style={{ color: risk.color }}>{risk.explanation}</p>
+      </div>
+
+      {/* ── Journal Intelligence ── */}
+      {patientJournal.length > 0 && (
+        <div className="rounded-2xl p-6 border" style={{ background: CREAM_CDS, borderColor: BORDER_CDS }}>
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="font-semibold" style={{ color: OCEAN_CDS }}>Recovery Reflection Intelligence</h3>
+            <span className="text-xs" style={{ color: MUTED_CDS }}>{patientJournal.length} entries analysed</span>
+          </div>
+          {journalThemes.length > 0 ? (
+            <div className="grid sm:grid-cols-2 gap-3 mb-5">
+              {journalThemes.map((t) => {
+                const themeColor = t.sentiment === "positive" ? "#2d6a4f" : t.sentiment === "concern" ? "#991b1b" : MUTED_CDS;
+                return (
+                  <div key={t.theme} className="rounded-xl p-4 border" style={{ background: `${themeColor}06`, borderColor: `${themeColor}20` }}>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-xs font-bold" style={{ color: themeColor }}>{t.theme}</span>
+                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${themeColor}15`, color: themeColor }}>
+                        {t.count}× mentioned
+                      </span>
+                    </div>
+                    <p className="text-xs italic" style={{ color: MUTED_CDS }}>"{t.example}"</p>
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="mb-4 text-sm" style={{ color: MUTED_CDS }}>No strong recurring themes detected in recent entries.</div>
+          )}
+          <div className="space-y-3">
+            {patientJournal.slice(0, 2).map((entry: any) => (
+              <div key={entry.id} className="rounded-xl p-4 border" style={{ background: `${OCEAN_CDS}04`, borderColor: BORDER_CDS }}>
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <span className="text-sm font-semibold" style={{ color: OCEAN_CDS }}>{entry.title}</span>
+                  <span className="text-xs" style={{ color: MUTED_CDS }}>· {entry.date}</span>
+                  {!entry.reviewed && (
+                    <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: "rgba(146,64,14,0.1)", color: "#92400e" }}>Unreviewed</span>
+                  )}
+                </div>
+                <p className="text-xs leading-relaxed" style={{ color: MUTED_CDS }}>{entry.body.slice(0, 140)}…</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Patient concern ── */}
+      {latestCheckIn?.concern && (
+        <div className="rounded-2xl p-5 border" style={{ background: "rgba(146,64,14,0.05)", borderColor: "rgba(146,64,14,0.18)" }}>
+          <div className="text-xs font-bold uppercase tracking-widest mb-2" style={{ color: "#92400e" }}>Recent Patient Concern</div>
+          <p className="text-sm italic mb-2" style={{ color: "#78350f" }}>"{latestCheckIn.concern}"</p>
+          <p className="text-xs" style={{ color: MUTED_CDS }}>{latestCheckIn.date} · Weekly Check-In</p>
+        </div>
+      )}
+
+      {/* ── Recovery Timeline ── */}
+      <div className="rounded-2xl p-6 border" style={{ background: CREAM_CDS, borderColor: BORDER_CDS }}>
+        <h3 className="font-semibold mb-5" style={{ color: OCEAN_CDS }}>Recovery Timeline</h3>
+        <div className="relative pl-6">
+          <div className="absolute left-2.5 top-0 bottom-0 w-px" style={{ background: BORDER_CDS }} />
+          {[
+            { week: `Week ${p.week}`, label: "Current — Active Rehabilitation", note: `Movement quality: ${p.score}%. ${latestCheckIn ? `Pain: ${latestCheckIn.pain}/10, Confidence: ${latestCheckIn.confidence}/10.` : "No check-in recorded."}`, active: true },
+            { week: "Week 3", label: "Strengthening Phase Begun", note: "Terminal knee extension and mini squats introduced.", active: false },
+            { week: "Week 1", label: "Rehabilitation Programme Started", note: "Initial assessment completed. Straight leg raises and quad sets assigned.", active: false },
+          ].map((event, i) => (
+            <div key={i} className="relative flex items-start gap-4 pb-6 last:pb-0">
+              <div className="absolute -left-6 top-1 w-4 h-4 rounded-full border-2 flex-shrink-0"
+                style={{ background: event.active ? OCEAN_CDS : CREAM_CDS, borderColor: event.active ? OCEAN_CDS : BORDER_CDS }} />
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-0.5 flex-wrap">
+                  <span className="text-xs font-bold uppercase tracking-widest" style={{ color: event.active ? OCEAN_CDS : MUTED_CDS }}>{event.week}</span>
+                  <span className="text-sm font-medium" style={{ color: OCEAN_CDS }}>{event.label}</span>
+                  {event.active && (
+                    <span className="text-xs px-2 py-0.5 rounded-full font-semibold" style={{ background: `${OCEAN_CDS}12`, color: OCEAN_CDS }}>Now</span>
+                  )}
+                </div>
+                <p className="text-xs" style={{ color: MUTED_CDS }}>{event.note}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
     </div>
   );
 }

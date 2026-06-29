@@ -4,7 +4,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import {
-  AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis,
   BarChart, Bar, Legend,
 } from "recharts";
@@ -393,24 +393,14 @@ export function PatientReport({ patientId, onBack }: PatientReportProps) {
               <h3 className="text-foreground">Performance Trend Across Weeks</h3>
             </div>
             <ResponsiveContainer width="100%" height={200}>
-              <AreaChart data={trendData}>
-                <defs>
-                  <linearGradient id="perfGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#1d4ed8" stopOpacity={0.2} />
-                    <stop offset="95%" stopColor="#1d4ed8" stopOpacity={0} />
-                  </linearGradient>
-                  <linearGradient id="simGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#059669" stopOpacity={0.15} />
-                    <stop offset="95%" stopColor="#059669" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
+              <LineChart data={trendData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(29,78,216,0.08)" />
                 <XAxis dataKey="week" tick={{ fontSize: 10, fill: "#4b6080" }} axisLine={false} tickLine={false} />
                 <YAxis domain={[50, 100]} tick={{ fontSize: 10, fill: "#4b6080" }} axisLine={false} tickLine={false} />
                 <Tooltip contentStyle={{ background: "#fff", border: "1px solid rgba(29,78,216,0.15)", borderRadius: 10, fontSize: 12 }} />
-                <Area type="monotone" dataKey="performance" name="Performance %" stroke="#1d4ed8" fill="url(#perfGrad)" strokeWidth={2.5} dot={{ r: 4, fill: "#1d4ed8" }} />
-                <Area type="monotone" dataKey="similarity" name="Similarity %" stroke="#059669" fill="url(#simGrad)" strokeWidth={2} dot={{ r: 3, fill: "#059669" }} />
-              </AreaChart>
+                <Line key="performance" type="monotone" dataKey="performance" name="Performance %" stroke="#1d4ed8" strokeWidth={2.5} dot={{ r: 4, fill: "#1d4ed8" }} activeDot={{ r: 6 }} />
+                <Line key="similarity" type="monotone" dataKey="similarity" name="Similarity %" stroke="#059669" strokeWidth={2} dot={{ r: 3, fill: "#059669" }} activeDot={{ r: 5 }} />
+              </LineChart>
             </ResponsiveContainer>
             <div className="flex gap-6 justify-center mt-2">
               {[["Performance %", "#1d4ed8"], ["Similarity %", "#059669"]].map(([label, color]) => (

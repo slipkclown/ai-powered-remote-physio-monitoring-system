@@ -225,8 +225,8 @@ export function ResultsPage({ onNavigate }: ResultsPageProps) {
                 <XAxis dataKey="rep" tick={{ fontSize: 10, fill: "#4b6080" }} axisLine={false} tickLine={false} />
                 <YAxis tick={{ fontSize: 10, fill: "#4b6080" }} axisLine={false} tickLine={false} domain={[60, 100]} />
                 <Tooltip contentStyle={{ background: "#fff", border: "1px solid rgba(29,78,216,0.15)", borderRadius: 10, fontSize: 12 }} />
-                <Bar dataKey="angle" name="Knee Angle (°)" fill="#60a5fa" radius={[4,4,0,0]} />
-                <Bar dataKey="similarity" name="Similarity (%)" fill="#34d399" radius={[4,4,0,0]} />
+                <Bar key="angle" dataKey="angle" name="Knee Angle (°)" fill="#60a5fa" radius={[4,4,0,0]} />
+                <Bar key="similarity" dataKey="similarity" name="Similarity (%)" fill="#34d399" radius={[4,4,0,0]} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -236,7 +236,7 @@ export function ResultsPage({ onNavigate }: ResultsPageProps) {
               <RadarChart data={radarData}>
                 <PolarGrid stroke="rgba(29,78,216,0.15)" />
                 <PolarAngleAxis dataKey="metric" tick={{ fontSize: 9, fill: "#4b6080" }} />
-                <Radar name="Score" dataKey="score" stroke="#1d4ed8" fill="#1d4ed8" fillOpacity={0.2} strokeWidth={2} />
+                <Radar key="score" name="Score" dataKey="score" stroke="#1d4ed8" fill="#1d4ed8" fillOpacity={0.2} strokeWidth={2} />
               </RadarChart>
             </ResponsiveContainer>
           </div>
@@ -282,10 +282,10 @@ export function ResultsPage({ onNavigate }: ResultsPageProps) {
         </div>
 
         {/* Post-exercise flow CTA */}
-        <div className="mt-8 bg-gradient-to-r from-[#1e3a8a] to-[#1d4ed8] rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-8 bg-gradient-to-r from-[#3D4F5A] to-[#4e6370] rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div>
             <div className="text-white font-medium mb-1">Complete Your Recovery Feedback Cycle</div>
-            <p className="text-blue-200 text-sm">After reviewing results, complete your Confidence Check-In and Weekly Check-In to send all data to your physiotherapist.</p>
+            <p className="text-[#c8c4b8] text-sm">After reviewing results, complete your Confidence Check-In and Weekly Check-In to send all data to your physiotherapist.</p>
           </div>
           <div className="flex gap-3 flex-shrink-0">
             <button onClick={() => onNavigate("monitor")} className="flex items-center gap-2 px-4 py-2.5 bg-white/20 hover:bg-white/30 text-white rounded-xl transition-colors text-sm">

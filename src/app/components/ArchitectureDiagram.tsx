@@ -5,14 +5,14 @@ interface ArchitectureDiagramProps {
 }
 
 const workflow = [
-  { step: "Physiotherapist Dashboard", desc: "Clinician creates rehab plan & assigns exercises", icon: <Monitor className="w-4 h-4" />, color: "bg-[#1e3a8a] text-white" },
+  { step: "Physiotherapist Dashboard", desc: "Clinician creates rehab plan & assigns exercises", icon: <Monitor className="w-4 h-4" />, color: "bg-[#305066] text-white" },
   { step: "Assign Rehabilitation Plan", desc: "ACL / Knee exercise protocol selected", icon: <Activity className="w-4 h-4" />, color: "bg-primary text-white" },
   { step: "Generate Patient Access Code", desc: "Unique time-limited code issued to patient", icon: <Zap className="w-4 h-4" />, color: "bg-primary text-white" },
-  { step: "Patient Login", desc: "Credentials or access code authentication", icon: <Users className="w-4 h-4" />, color: "bg-cyan-600 text-white" },
-  { step: "Patient Dashboard", desc: "Patient views assigned exercises & progress", icon: <Monitor className="w-4 h-4" />, color: "bg-cyan-600 text-white" },
-  { step: "Select Assigned Exercise", desc: "Patient picks exercise from their plan", icon: <Activity className="w-4 h-4" />, color: "bg-cyan-600 text-white" },
-  { step: "Reference Exercise Video", desc: "Certified demonstration video for guidance", icon: <Camera className="w-4 h-4" />, color: "bg-cyan-500 text-white" },
-  { step: "Webcam Capture", desc: "Live video stream via browser WebRTC API", icon: <Camera className="w-4 h-4" />, color: "bg-cyan-500 text-white" },
+  { step: "Patient Login", desc: "Credentials or access code authentication", icon: <Users className="w-4 h-4" />, color: "bg-[#EDE7D3] text-[#305066]" },
+  { step: "Patient Dashboard", desc: "Patient views assigned exercises & progress", icon: <Monitor className="w-4 h-4" />, color: "bg-[#EDE7D3] text-[#305066]" },
+  { step: "Select Assigned Exercise", desc: "Patient picks exercise from their plan", icon: <Activity className="w-4 h-4" />, color: "bg-[#EDE7D3] text-[#305066]" },
+  { step: "Reference Exercise Video", desc: "Certified demonstration video for guidance", icon: <Camera className="w-4 h-4" />, color: "bg-[#EDE7D3] text-white" },
+  { step: "Webcam Capture", desc: "Live video stream via browser WebRTC API", icon: <Camera className="w-4 h-4" />, color: "bg-[#EDE7D3] text-white" },
   { step: "TensorFlow.js MoveNet", desc: "Lightning/Thunder model — 17 keypoints @ 30fps", icon: <Brain className="w-4 h-4" />, color: "bg-violet-600 text-white" },
   { step: "Body Keypoint Detection", desc: "Nose, shoulders, elbows, wrists, hips, knees, ankles", icon: <Brain className="w-4 h-4" />, color: "bg-violet-600 text-white" },
   { step: "Joint Angle Calculation", desc: "Trigonometric analysis of limb vectors", icon: <Brain className="w-4 h-4" />, color: "bg-violet-600 text-white" },
@@ -21,7 +21,7 @@ const workflow = [
   { step: "Real-Time Feedback Engine", desc: "Rule-based + ML corrective message generation", icon: <Zap className="w-4 h-4" />, color: "bg-amber-600 text-white" },
   { step: "Performance Evaluation", desc: "Score computation: angle, similarity, consistency", icon: <Activity className="w-4 h-4" />, color: "bg-amber-600 text-white" },
   { step: "Database Storage", desc: "MySQL / Firebase: patient records, sessions, angles", icon: <Database className="w-4 h-4" />, color: "bg-emerald-700 text-white" },
-  { step: "Physiotherapist Dashboard", desc: "Reports, trend charts, error analysis, comparisons", icon: <Monitor className="w-4 h-4" />, color: "bg-[#1e3a8a] text-white" },
+  { step: "Physiotherapist Dashboard", desc: "Reports, trend charts, error analysis, comparisons", icon: <Monitor className="w-4 h-4" />, color: "bg-[#305066] text-white" },
 ];
 
 const aiTechs = [
@@ -83,7 +83,7 @@ export function ArchitectureDiagram({ onNavigate }: ArchitectureDiagramProps) {
             {
               role: "Physiotherapist",
               color: "border-primary/30 bg-primary/5",
-              headerBg: "bg-[#1e3a8a]",
+              headerBg: "bg-[#305066]",
               icon: <Monitor className="w-5 h-5 text-white" />,
               items: [
                 "Registers and manages patients",
@@ -96,8 +96,8 @@ export function ArchitectureDiagram({ onNavigate }: ArchitectureDiagramProps) {
             },
             {
               role: "Patient",
-              color: "border-cyan-300/30 bg-cyan-50/50",
-              headerBg: "bg-cyan-600",
+              color: "border-[#EDE7D3]/30 bg-[#EDE7D3]/10",
+              headerBg: "bg-[#EDE7D3]",
               icon: <Users className="w-5 h-5 text-white" />,
               items: [
                 "Accesses via laptop or desktop browser",
@@ -205,7 +205,7 @@ export function ArchitectureDiagram({ onNavigate }: ArchitectureDiagramProps) {
 
           {/* Physio outputs */}
           <div className="bg-card border border-blue-200 rounded-2xl overflow-hidden">
-            <div className="bg-[#1e3a8a] px-5 py-3.5 flex items-center gap-2.5">
+            <div className="bg-[#305066] px-5 py-3.5 flex items-center gap-2.5">
               <Monitor className="w-5 h-5 text-white" />
               <span className="text-white font-medium">Physiotherapist Outputs</span>
             </div>
@@ -229,7 +229,7 @@ export function ArchitectureDiagram({ onNavigate }: ArchitectureDiagramProps) {
           <div className="flex justify-center">
             <div className="flex flex-col items-center gap-0">
               {/* Home */}
-              <div className="bg-[#1e3a8a] text-white rounded-xl px-6 py-3 min-w-[180px] text-center font-medium text-sm">
+              <div className="bg-[#305066] text-white rounded-xl px-6 py-3 min-w-[180px] text-center font-medium text-sm">
                 Home
               </div>
               <div className="flex h-8 items-center justify-center gap-48">
@@ -240,11 +240,11 @@ export function ArchitectureDiagram({ onNavigate }: ArchitectureDiagramProps) {
               <div className="flex gap-48 items-start">
                 {/* Patient branch */}
                 <div className="flex flex-col items-center gap-0">
-                  <div className="bg-cyan-600 text-white rounded-xl px-5 py-2.5 min-w-[160px] text-center text-sm font-medium">
+                  <div className="bg-[#EDE7D3] text-[#305066] rounded-xl px-5 py-2.5 min-w-[160px] text-center text-sm font-medium">
                     Patient Login
                   </div>
                   <ArrowDown className="w-4 h-4 text-muted-foreground my-2" />
-                  <div className="bg-cyan-500 text-white rounded-xl px-5 py-2.5 min-w-[160px] text-center text-sm font-medium">
+                  <div className="bg-[#EDE7D3] text-white rounded-xl px-5 py-2.5 min-w-[160px] text-center text-sm font-medium">
                     Patient Dashboard
                   </div>
                   <ArrowDown className="w-4 h-4 text-muted-foreground my-2" />
@@ -262,7 +262,7 @@ export function ArchitectureDiagram({ onNavigate }: ArchitectureDiagramProps) {
                     Physio Login
                   </div>
                   <ArrowDown className="w-4 h-4 text-muted-foreground my-2" />
-                  <div className="bg-[#1e3a8a] text-white rounded-xl px-5 py-2.5 min-w-[160px] text-center text-sm font-medium">
+                  <div className="bg-[#305066] text-white rounded-xl px-5 py-2.5 min-w-[160px] text-center text-sm font-medium">
                     Physio Dashboard
                   </div>
                   <ArrowDown className="w-4 h-4 text-muted-foreground my-2" />

@@ -1,4 +1,4 @@
-import { Activity, Eye, EyeOff, Lock, Mail } from "lucide-react";
+import { Activity, ArrowLeft, Eye, EyeOff, Lock, Mail } from "lucide-react";
 import { useState } from "react";
 
 interface LoginPageProps {
@@ -7,39 +7,75 @@ interface LoginPageProps {
   onBack: () => void;
 }
 
+/* ─── Palette ───────────────────────────────────────── */
+const OLIVE = "#305066";
+const STONE = "#305066";
+const SAGE = "#5a7485";
+const MOSS = "rgba(48,80,102,0.15)";
+const BLUSH = "#EDE7D3";
+const CREAM = "#FAF4E5";
+const CHARCOAL = "#305066";
+
 export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
   const [showPass, setShowPass] = useState(false);
   const [useCode, setUseCode] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const isPatient = role === "patient";
 
+  const accent = isPatient ? OLIVE : STONE;
+  const accentDark = isPatient ? "#3d6480" : "#3d6480";
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#1e3a8a] via-[#1d4ed8] to-[#0891b2] flex items-center justify-center p-6">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-        {/* Header */}
-        <div className={`${isPatient ? "bg-cyan-600" : "bg-[#1e3a8a]"} p-8 text-center`}>
-          <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-6"
+      style={{ background: "#305066", fontFamily: "'Manrope', 'Inter', sans-serif" }}
+    >
+      {/* Back button */}
+      <button
+        onClick={onBack}
+        className="fixed top-6 left-6 flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors"
+      >
+        <ArrowLeft className="w-4 h-4" /> Back to Recovr
+      </button>
+
+      <div
+        className="w-full max-w-md rounded-3xl overflow-hidden shadow-2xl"
+        style={{ background: CREAM }}
+      >
+        {/* ─ Header strip ─ */}
+        <div className="px-8 pt-8 pb-6 text-center" style={{ background: accent }}>
+          <div
+            className="w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4"
+            style={{ background: "rgba(255,255,255,0.15)" }}
+          >
             <Activity className="w-7 h-7 text-white" />
           </div>
-          <div className="text-white text-xl font-bold mb-0.5">Recovr</div>
-          <div className="text-white/80 text-sm">{isPatient ? "Patient Portal" : "Physiotherapist Portal"}</div>
-          <div className="text-white/60 text-xs mt-1">Human Centered AI Rehabilitation Support for ACL Recovery</div>
+          <div className="text-white text-xl font-bold tracking-tight">Recovr</div>
+          <div className="text-white/75 text-sm mt-1">
+            {isPatient ? "Patient Portal" : "Physiotherapist Portal"}
+          </div>
+          <div className="text-white/50 text-xs mt-1">
+            Human-Centred AI Rehabilitation Support
+          </div>
         </div>
 
-        {/* Form */}
+        {/* ─ Form body ─ */}
         <div className="p-8">
-          {/* Patient: tab toggle */}
+          {/* Tab toggles */}
           {isPatient && (
-            <div className="flex rounded-xl border border-border overflow-hidden mb-6">
+            <div
+              className="flex rounded-xl overflow-hidden mb-6 border"
+              style={{ borderColor: MOSS }}
+            >
               {["Email & Password", "Access Code"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setUseCode(tab === "Access Code")}
-                  className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
-                    (tab === "Access Code") === useCode
-                      ? "bg-primary text-white"
-                      : "bg-background text-muted-foreground hover:bg-secondary"
-                  }`}
+                  className="flex-1 py-2.5 text-sm font-semibold transition-colors"
+                  style={{
+                    background: (tab === "Access Code") === useCode ? accent : CREAM,
+                    color: (tab === "Access Code") === useCode ? "#ffffff" : SAGE,
+                  }}
                 >
                   {tab}
                 </button>
@@ -47,18 +83,20 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
             </div>
           )}
 
-          {/* Physio: register/login toggle */}
           {!isPatient && (
-            <div className="flex rounded-xl border border-border overflow-hidden mb-6">
+            <div
+              className="flex rounded-xl overflow-hidden mb-6 border"
+              style={{ borderColor: MOSS }}
+            >
               {["Sign In", "Create Account"].map((tab) => (
                 <button
                   key={tab}
                   onClick={() => setShowRegister(tab === "Create Account")}
-                  className={`flex-1 py-2.5 text-sm font-medium transition-colors ${
-                    (tab === "Create Account") === showRegister
-                      ? "bg-[#1e3a8a] text-white"
-                      : "bg-background text-muted-foreground hover:bg-secondary"
-                  }`}
+                  className="flex-1 py-2.5 text-sm font-semibold transition-colors"
+                  style={{
+                    background: (tab === "Create Account") === showRegister ? accent : CREAM,
+                    color: (tab === "Create Account") === showRegister ? "#ffffff" : SAGE,
+                  }}
                 >
                   {tab}
                 </button>
@@ -69,116 +107,151 @@ export function LoginPage({ role, onLogin, onBack }: LoginPageProps) {
           <div className="space-y-4">
             {!useCode ? (
               <>
-                {/* Registration fields (physio only) */}
                 {!isPatient && showRegister && (
                   <>
-                    <div>
-                      <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">Full Name</label>
-                      <input
-                        type="text"
-                        placeholder="Dr. Ahmad Fauzi"
-                        className="w-full px-4 py-3 border border-border rounded-xl bg-background focus:outline-none focus:border-primary text-sm"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">Clinic / Hospital</label>
-                      <input
-                        type="text"
-                        placeholder="KL Rehabilitation Centre"
-                        className="w-full px-4 py-3 border border-border rounded-xl bg-background focus:outline-none focus:border-primary text-sm"
-                      />
-                    </div>
+                    <Field label="Full Name" type="text" placeholder="Dr. Ahmad Fauzi" />
+                    <Field label="Clinic / Hospital" type="text" placeholder="KL Rehabilitation Centre" />
                   </>
                 )}
-
-                {/* Email */}
                 <div>
-                  <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">
+                  <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: SAGE }}>
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <Mail className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: MOSS }} />
                     <input
                       type="email"
                       placeholder={isPatient ? "patient@email.com" : "dr.name@clinic.com"}
-                      className="w-full pl-9 pr-4 py-3 border border-border rounded-xl bg-background focus:outline-none focus:border-primary text-sm"
+                      className="w-full pl-10 pr-4 py-3 rounded-xl text-sm border focus:outline-none transition-colors"
+                      style={{ background: "#FAF4E5", borderColor: "rgba(48,80,102,0.2)", color: CHARCOAL }}
                     />
                   </div>
                 </div>
-
-                {/* Password */}
                 <div>
-                  <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">Password</label>
+                  <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: SAGE }}>
+                    Password
+                  </label>
                   <div className="relative">
-                    <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                    <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: MOSS }} />
                     <input
                       type={showPass ? "text" : "password"}
                       placeholder="••••••••"
-                      className="w-full pl-9 pr-10 py-3 border border-border rounded-xl bg-background focus:outline-none focus:border-primary text-sm"
+                      className="w-full pl-10 pr-10 py-3 rounded-xl text-sm border focus:outline-none transition-colors"
+                      style={{ background: "#FAF4E5", borderColor: "rgba(48,80,102,0.2)", color: CHARCOAL }}
                     />
                     <button
                       type="button"
                       onClick={() => setShowPass((v) => !v)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                      aria-label={showPass ? "Hide password" : "Show password"}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 transition-colors"
+                      style={{ color: MOSS }}
                     >
                       {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     </button>
                   </div>
                 </div>
-
-                {/* Confirm password (register) */}
                 {!isPatient && showRegister && (
                   <div>
-                    <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">Confirm Password</label>
+                    <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: SAGE }}>
+                      Confirm Password
+                    </label>
                     <div className="relative">
-                      <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+                      <Lock className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2" style={{ color: MOSS }} />
                       <input
                         type={showPass ? "text" : "password"}
                         placeholder="••••••••"
-                        className="w-full pl-9 pr-10 py-3 border border-border rounded-xl bg-background focus:outline-none focus:border-primary text-sm"
+                        className="w-full pl-10 pr-10 py-3 rounded-xl text-sm border focus:outline-none"
+                        style={{ background: "#FAF4E5", borderColor: "rgba(48,80,102,0.2)", color: CHARCOAL }}
                       />
                     </div>
                   </div>
                 )}
               </>
             ) : (
-              /* Access code tab */
               <div>
-                <label className="text-muted-foreground text-xs uppercase tracking-wider block mb-1.5">Access Code</label>
+                <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: SAGE }}>
+                  Access Code
+                </label>
                 <input
                   type="text"
-                  placeholder="e.g. ACL-2025-7X4K"
-                  className="w-full px-4 py-3 border border-border rounded-xl bg-background focus:outline-none focus:border-primary text-sm font-mono tracking-wider text-center uppercase"
+                  placeholder="ACL-2025-XXXX"
+                  className="w-full px-4 py-3 rounded-xl text-sm font-mono tracking-widest text-center uppercase border focus:outline-none"
+                  style={{ background: "#FAF4E5", borderColor: "rgba(48,80,102,0.2)", color: CHARCOAL }}
                 />
-                <p className="text-muted-foreground text-xs mt-2">Access code provided by your physiotherapist. Format: ACL-2025-XXXX</p>
+                <p className="text-xs mt-2" style={{ color: SAGE }}>
+                  Access code provided by your physiotherapist.
+                </p>
               </div>
             )}
 
+            {/* Primary action */}
             <button
               onClick={onLogin}
-              className={`w-full py-3 rounded-xl text-white font-medium transition-colors ${isPatient ? "bg-cyan-600 hover:bg-cyan-700" : "bg-[#1e3a8a] hover:bg-blue-900"}`}
+              className="w-full py-3.5 rounded-xl text-white font-bold text-sm transition-all hover:opacity-90 mt-2"
+              style={{ background: accent }}
             >
               {useCode ? "Enter with Access Code" : showRegister ? "Create Account" : "Sign In"}
             </button>
           </div>
 
-          {!isPatient && !showRegister && (
-            <p className="mt-4 text-center text-muted-foreground text-sm">
-              New physiotherapist?{" "}
-              <button onClick={() => setShowRegister(true)} className="text-primary hover:underline font-medium">
-                Create Account
-              </button>
-            </p>
-          )}
-
-          <div className="mt-4 text-center">
-            <button onClick={onBack} className="text-muted-foreground text-sm hover:text-foreground transition-colors">
-              ← Back to Home
+          {/* Secondary links */}
+          <div className="mt-5 space-y-2 text-center">
+            {!isPatient && !showRegister && (
+              <p className="text-sm" style={{ color: SAGE }}>
+                New to Recovr?{" "}
+                <button
+                  onClick={() => setShowRegister(true)}
+                  className="font-semibold hover:underline"
+                  style={{ color: accent }}
+                >
+                  Create clinician account
+                </button>
+              </p>
+            )}
+            {!isPatient && showRegister && (
+              <p className="text-sm" style={{ color: SAGE }}>
+                Already have an account?{" "}
+                <button
+                  onClick={() => setShowRegister(false)}
+                  className="font-semibold hover:underline"
+                  style={{ color: accent }}
+                >
+                  Sign in
+                </button>
+              </p>
+            )}
+            <button
+              onClick={onBack}
+              className="text-sm transition-colors hover:underline"
+              style={{ color: MOSS }}
+            >
+              ← Back to Recovr
             </button>
           </div>
         </div>
+
+        {/* ─ Footer note ─ */}
+        <div className="px-8 pb-6 text-center">
+          <p className="text-xs" style={{ color: MOSS }}>
+            Recovery doesn't stop when you leave the clinic.
+          </p>
+        </div>
       </div>
+    </div>
+  );
+}
+
+function Field({ label, type, placeholder }: { label: string; type: string; placeholder: string }) {
+  return (
+    <div>
+      <label className="block text-xs font-semibold uppercase tracking-wider mb-1.5" style={{ color: "#5a7485" }}>
+        {label}
+      </label>
+      <input
+        type={type}
+        placeholder={placeholder}
+        className="w-full px-4 py-3 rounded-xl text-sm border focus:outline-none"
+        style={{ background: "#FAF4E5", borderColor: "#5a7485", color: "#305066" }}
+      />
     </div>
   );
 }
