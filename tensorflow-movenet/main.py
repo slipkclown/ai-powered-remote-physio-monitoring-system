@@ -5,23 +5,30 @@ from pose.drawing import PoseDrawer
 
 from exercise.analyzer import PoseAnalyzer
 from exercise.filter import AngleFilter
+from exercise.recognition import ExerciseRecognizer
+from exercise.counter import ExerciseCounter
 
 
 def main():
-
-    # Load detector
+    # Initialize detector
     detector = MoveNetDetector()
 
-    # Drawer
+    # Initialize drawer
     drawer = PoseDrawer()
 
-    # Analyzer
+    # Initialize analyzer
     analyzer = PoseAnalyzer()
 
-    # Angle filter
+    # Initialize angle filter
     angle_filter = AngleFilter(window_size=5)
 
-    # Webcam
+    # Initialize exercise recognizer
+    recognizer = ExerciseRecognizer()
+
+    # Initialize repetition counter
+    counter = ExerciseCounter()
+
+    # Open webcam
     cap = cv2.VideoCapture(0)
 
     if not cap.isOpened():
@@ -35,6 +42,7 @@ def main():
         ret, frame = cap.read()
 
         if not ret:
+            print("❌ Failed to read frame")
             break
 
         # Detect pose
@@ -43,17 +51,20 @@ def main():
         # Calculate joint angles
         angles = analyzer.get_joint_angles(keypoints)
 
-        # Smooth every angle
+        # Smooth all angles
         for name in angles:
-            angles[name] = angle_filter.smooth(
-                name,
-                angles[name]
-            )
+            angles[name] = angle_filter.smooth(name, angles[name])
 
-        # Print angles
+        # Recognize exercise state
+        exercise = recognizer.recognize(angles)
+
+        # Update repetition counter
+        reps = counter.update(exercise)
+
+        # Print status
         print(
-            f"LE: {angles['left_elbow']:.1f}° | "
-            f"RE: {angles['right_elbow']:.1f}° | "
+            f"{exercise} | "
+            f"Reps: {reps} | "
             f"LK: {angles['left_knee']:.1f}° | "
             f"RK: {angles['right_knee']:.1f}°"
         )
@@ -61,11 +72,10 @@ def main():
         # Draw pose
         frame = drawer.draw_keypoints(frame, keypoints)
 
-        cv2.imshow(
-            "MoveNet Pose Detection",
-            frame
-        )
+        # Display webcam
+        cv2.imshow("AI Physiotherapy - MoveNet", frame)
 
+        # Press Q to quit
         if cv2.waitKey(1) & 0xFF == ord("q"):
             break
 
