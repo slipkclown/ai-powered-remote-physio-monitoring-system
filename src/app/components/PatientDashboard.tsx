@@ -2,10 +2,11 @@ import {
   Activity, Bell, BookOpen, Calendar, ChevronRight, Clock,
   Heart, MessageSquare, Play, TrendingUp, Trophy, User, Zap, CheckCircle,
 } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { RecoveryCompass } from "./RecoveryCompass";
 import { useRehab } from "../context/RehabContext";
+import { supabase } from "../context/supabaseClient";
 import { toast } from "sonner";
 
 interface PatientDashboardProps {
@@ -63,6 +64,30 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
   const myNotifications = notifications.filter((n) => n.for === "patient");
   const encouragement = useMemo(() => ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)], []);
 
+  const [userName, setUserName] = useState("Patient");
+
+  useEffect(() => {
+    async function fetchUserName() {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data } = await supabase
+          .from("profiles")
+          .select("full_name")
+          .eq("id", user.id)
+          .single();
+        if (data?.full_name) setUserName(data.full_name);
+      }
+    }
+    fetchUserName();
+  }, []);
+
+  const initials = userName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
   // Recovery Score: composite of exercise quality (88%), adherence (70%), confidence (80%), milestones (60%)
   const recoveryScore = Math.round((88 * 0.35) + (70 * 0.25) + (80 * 0.25) + (60 * 0.15));
 
@@ -98,9 +123,9 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
         </nav>
         <div className="p-4 border-t border-white/10">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full flex items-center justify-center" className="font-semibold" style={{ background: "rgba(250,244,229,0.2)", color: "#FAF4E5" }}>MA</div>
+            <div className="w-9 h-9 rounded-full flex items-center justify-center font-semibold" style={{ background: "rgba(250,244,229,0.2)", color: "#FAF4E5" }}>{initials}</div>
             <div>
-              <div className="text-sm" style={{ color: "#FAF4E5" }}>Muhammad Arif</div>
+              <div className="text-sm" style={{ color: "#FAF4E5" }}>{userName}</div>
               <div className="text-xs" style={{ color: "rgba(250,244,229,0.6)" }}>ACL Rehabilitation · Week 3</div>
             </div>
           </div>
@@ -112,7 +137,7 @@ export function PatientDashboard({ onNavigate }: PatientDashboardProps) {
           {/* Welcome header */}
           <div className="bg-gradient-to-r from-[#F5EED6] to-[#FAF4E5] border border-primary/10 rounded-2xl p-6 mb-6 flex items-center justify-between gap-4">
             <div className="flex-1">
-              <h1 className="text-foreground text-2xl font-bold mb-1">Welcome back, Muhammad.</h1>
+              <h1 className="text-foreground text-2xl font-bold mb-1">Welcome back, {userName}.</h1>
               <p className="text-muted-foreground text-sm mb-2">Week 3 of ACL Rehabilitation · Dr. Sarah Chen</p>
               <p className="text-primary text-sm italic">"{encouragement}"</p>
             </div>
