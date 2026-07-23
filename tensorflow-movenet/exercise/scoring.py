@@ -10,7 +10,7 @@ class MovementScorer:
     def __init__(self):
 
         # ---------------------------------
-        # Deepest Knee Angles (ROM)
+        # Deepest Knee Angles (Internal Angles)
         # ---------------------------------
 
         self.lowest_left_knee = 180.0
@@ -31,27 +31,56 @@ class MovementScorer:
         self.timing_active = False
 
     # ==================================================
+    # MOVEMENT CLASSIFICATION
+    # ==================================================
+
+    def classify_squat(self, average_flexion):
+        """
+        Classify squat depth based on average knee flexion.
+        """
+
+        if average_flexion <= 30:
+            return "Standing / Mini Squat"
+
+        elif average_flexion <= 60:
+            return "Semi Squat"
+
+        elif average_flexion <= 89:
+            return "Approaching Half Squat"
+
+        elif average_flexion <= 100:
+            return "Half / Parallel Squat"
+
+        else:
+            return "Deep Squat"
+
+    # ==================================================
     # DEPTH
     # ==================================================
 
     def score_depth(self, angles):
 
-        average = (
+        average_internal = (
             angles["left_knee"] +
             angles["right_knee"]
         ) / 2
 
-        if average < 90:
+        average_flexion = 180 - average_internal
+
+        if average_flexion > 100:
             return 100, "Excellent"
 
-        elif average < 110:
+        elif average_flexion >= 90:
+            return 100, "Excellent"
+
+        elif average_flexion >= 61:
             return 85, "Good"
 
-        elif average < 130:
-            return 70, "Fair"
+        elif average_flexion >= 31:
+            return 70, "Needs Improvement"
 
         else:
-            return 50, "Needs Improvement"
+            return 50, "Poor"
 
     # ==================================================
     # SYMMETRY
@@ -88,7 +117,7 @@ class MovementScorer:
         average = (left + right) / 2
 
         # ---------------------------------
-        # Track deepest angles
+        # Track Deepest Internal Knee Angles
         # ---------------------------------
 
         if left < self.lowest_left_knee:
@@ -101,35 +130,55 @@ class MovementScorer:
             self.lowest_average_knee = average
 
         # ---------------------------------
-        # Score ROM once standing again
+        # Evaluate ROM Once Standing Again
         # ---------------------------------
 
         if exercise == "Standing":
 
-            deepest = self.lowest_average_knee
+            # Convert internal angle to knee flexion
+            left_flexion = 180 - self.lowest_left_knee
+            right_flexion = 180 - self.lowest_right_knee
+            average_flexion = 180 - self.lowest_average_knee
 
-            if deepest < 90:
+            # Score ROM
+            if average_flexion > 100:
                 score = 100
                 label = "Excellent"
 
-            elif deepest < 110:
+            elif average_flexion >= 90:
+                score = 100
+                label = "Excellent"
+
+            elif average_flexion >= 61:
                 score = 85
                 label = "Good"
 
-            elif deepest < 130:
+            elif average_flexion >= 31:
                 score = 70
-                label = "Fair"
+                label = "Needs Improvement"
 
             else:
                 score = 50
-                label = "Limited"
+                label = "Poor"
 
             result = {
                 "score": score,
                 "label": label,
+
+                # Internal Knee Angles
                 "left_knee": round(self.lowest_left_knee, 1),
                 "right_knee": round(self.lowest_right_knee, 1),
                 "average_knee": round(self.lowest_average_knee, 1),
+
+                # Knee Flexion
+                "left_flexion": round(left_flexion, 1),
+                "right_flexion": round(right_flexion, 1),
+                "average_flexion": round(average_flexion, 1),
+
+                # Clinical Interpretation
+                "movement_classification": self.classify_squat(
+                    average_flexion
+                )
             }
 
             # Reset for next repetition
