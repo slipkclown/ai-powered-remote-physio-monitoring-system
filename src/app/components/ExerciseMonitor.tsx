@@ -99,11 +99,11 @@ export function ExerciseMonitor({ onNavigate }: ExerciseMonitorProps) {
             <div className="text-[#b0ad9e] text-xs uppercase tracking-wider mb-3">Instructions</div>
             <div className="space-y-2.5">
               {[
-                "Sit in a chair with both feet flat on the floor.",
-                "Slowly straighten the affected knee until fully extended.",
-                "Hold for 2 seconds at full extension.",
-                "Lower the leg slowly — 4 seconds down.",
-                "Complete 12 repetitions per set.",
+                "Stand with feet a little wider than shoulders.",
+                "Keep chest up, back straight.",
+                "Bend knees and push hips back.",
+                "Lower down until hips are below knees.",
+                "Press through heels to stand back up.",
               ].map((step, i) => (
                 <div key={i} className="flex gap-2.5">
                   <div className="w-5 h-5 rounded-full bg-primary/30 text-[#a0c4b8] text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
